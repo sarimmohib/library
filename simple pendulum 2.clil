@@ -10,29 +10,34 @@ extension "simple_pendulum_sim" {
         $max_angle: "float";
     };
     code: """
-        window.onload = function() {
-            const canvas = document.getElementById('pendulum-canvas') || document.querySelector('canvas');
-            if (!canvas) {
-                console.error('CLIL Extension: Canvas element not found in iframe DOM.');
+        function initPendulum() {
+            // 1. Wait for the canvas to exist in the DOM
+            const canvas = document.querySelector('canvas');
+            // 2. Wait for the CLILBridge API to be exposed by the runtime
+            if (!canvas || typeof CLILBridge === 'undefined') {
+                setTimeout(initPendulum, 50); // Poll every 50ms until ready
                 return;
             }
+            
+            // Fallback dimensions if the runtime hasn't sized the canvas yet
+            canvas.width = canvas.clientWidth || 400;
+            canvas.height = canvas.clientHeight || 350;
             
             const ctx = canvas.getContext('2d');
             let localTime = 0;
 
             function draw() {
-                // Fetch real-time state from CLIL runtime
                 const length = CLILBridge.getState('length');
                 const maxAngleDeg = CLILBridge.getState('max_angle');
                 
-                // Safety check for undefined state variables
-                if (length === undefined || maxAngleDeg === undefined) {
+                // Safety check: wait for state variables to be initialized
+                if (length === undefined || maxAngleDeg === undefined || isNaN(length)) {
                     requestAnimationFrame(draw);
                     return;
                 }
 
                 const maxAngleRad = maxAngleDeg * (Math.PI / 180);
-                const L_phys = length / 100.0; 
+                const L_phys = Math.max(length / 100.0, 0.1); // Prevent division by zero
                 const omega = Math.sqrt(9.8 / L_phys); 
                 
                 localTime += 0.016; 
@@ -42,8 +47,7 @@ extension "simple_pendulum_sim" {
                 const centerY = 40;
                 const bobX = centerX + length * Math.sin(currentAngle);
                 const bobY = centerY + length * Math.cos(currentAngle);
-                
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                                ctx.clearRect(0, 0, canvas.width, canvas.height);
                 
                 // Draw ceiling mount
                 ctx.beginPath();
@@ -84,9 +88,15 @@ extension "simple_pendulum_sim" {
             });
 
             draw();
-        };
-    """;
-    usage: """
+        }
+
+        // Trigger initialization safely
+        if (document.readyState === 'complete') {
+            initPendulum();
+        } else {
+            window.addEventListener('load', initPendulum);
+        }
+    """;    usage: """
         To use this extension, add `extension: "simple_pendulum_sim"` inside your simulation block.
         Define the required state variables (`$length`, `$max_angle`) and provide sliders to control them.
     """;
@@ -115,7 +125,8 @@ scene "pendulum_intro" {
     simulation "pendulum_lab" {
         extension: "simple_pendulum_sim";
         viewport {
-            width: "100%";            height: "350px";
+            width: "100%";
+            height: "350px";
             viewbox: "0 0 400 350";
         }
         state {
@@ -134,8 +145,7 @@ scene "pendulum_intro" {
             value: $max_angle;
             on_change: {}
         }
-    }
-}
+    }}
 
 // ============================================================================
 // SCENE 2: Diagnostic Knowledge Check
@@ -164,7 +174,8 @@ scene "pendulum_diagnostics" {
         }
 
         mcq "mass_independence_mcq" {
-            Q: "If we replace the bob with a new one that has twice the mass, but keep the length the same, what happens to the period?";            A: "c";
+            Q: "If we replace the bob with a new one that has twice the mass, but keep the length the same, what happens to the period?";
+            A: "c";
             O: a) "It doubles", b) "It halves", c) "It remains the same", d) "It increases by a factor of \\( \\sqrt{2} \\)";
             R: "The mass of the bob does not appear in the period formula \\( T = 2\\pi\\sqrt{L/g} \\). Therefore, the period is independent of mass.";
             
@@ -183,8 +194,7 @@ scene "pendulum_diagnostics" {
 // ============================================================================
 scene "pendulum_mastery" {
     index: "p3";
-    concept: "simple_harmonic_motion";
-    title: "Learning Path Evaluation";
+    concept: "simple_harmonic_motion";    title: "Learning Path Evaluation";
 
     @if $mastery["simple_harmonic_motion"] < 0.60 {
         body: "It looks like you might need a bit more practice with pendulum concepts. Let's review the fundamentals.";
