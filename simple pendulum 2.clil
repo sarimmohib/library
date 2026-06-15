@@ -10,62 +10,81 @@ extension "simple_pendulum_sim" {
         $max_angle: "float";
     };
     code: """
-        const canvas = document.getElementById('pendulum-canvas') || document.querySelector('canvas');
-        const ctx = canvas.getContext('2d');
-        let localTime = 0;
+        window.onload = function() {
+            const canvas = document.getElementById('pendulum-canvas') || document.querySelector('canvas');
+            if (!canvas) {
+                console.error('CLIL Extension: Canvas element not found in iframe DOM.');
+                return;
+            }
+            
+            const ctx = canvas.getContext('2d');
+            let localTime = 0;
 
-        function draw() {
-            const length = CLILBridge.getState('length');
-            const maxAngleDeg = CLILBridge.getState('max_angle');
-            
-            const maxAngleRad = maxAngleDeg * (Math.PI / 180);
-            const L_phys = length / 100.0; 
-            const omega = Math.sqrt(9.8 / L_phys); 
-            
-            localTime += 0.016; 
-            const currentAngle = maxAngleRad * Math.cos(omega * localTime);
-            
-            const centerX = canvas.width / 2;
-            const centerY = 40;
-            const bobX = centerX + length * Math.sin(currentAngle);
-            const bobY = centerY + length * Math.cos(currentAngle);
-            
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            ctx.beginPath();
-            ctx.moveTo(centerX - 60, centerY);
-            ctx.lineTo(centerX + 60, centerY);
-            ctx.strokeStyle = '#7f8c8d';
-            ctx.lineWidth = 4;
-            ctx.stroke();
-            
-            ctx.beginPath();
-            ctx.moveTo(centerX, centerY);
-            ctx.lineTo(bobX, bobY);
-            ctx.strokeStyle = '#2c3e50';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-            
-            ctx.beginPath();
-            ctx.arc(centerX, centerY, 5, 0, 2 * Math.PI);            ctx.fillStyle = '#2c3e50';
-            ctx.fill();
-            
-            ctx.beginPath();
-            ctx.arc(bobX, bobY, 14, 0, 2 * Math.PI);
-            ctx.fillStyle = '#e74c3c';
-            ctx.fill();
-            ctx.strokeStyle = '#c0392b';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-            
-            requestAnimationFrame(draw);
-        }
-        
-        CLILBridge.on('statechange', () => {
-            localTime = 0; 
-        });
+            function draw() {
+                // Fetch real-time state from CLIL runtime
+                const length = CLILBridge.getState('length');
+                const maxAngleDeg = CLILBridge.getState('max_angle');
+                
+                // Safety check for undefined state variables
+                if (length === undefined || maxAngleDeg === undefined) {
+                    requestAnimationFrame(draw);
+                    return;
+                }
 
-        draw();
+                const maxAngleRad = maxAngleDeg * (Math.PI / 180);
+                const L_phys = length / 100.0; 
+                const omega = Math.sqrt(9.8 / L_phys); 
+                
+                localTime += 0.016; 
+                const currentAngle = maxAngleRad * Math.cos(omega * localTime);
+                
+                const centerX = canvas.width / 2;
+                const centerY = 40;
+                const bobX = centerX + length * Math.sin(currentAngle);
+                const bobY = centerY + length * Math.cos(currentAngle);
+                
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw ceiling mount
+                ctx.beginPath();
+                ctx.moveTo(centerX - 60, centerY);
+                ctx.lineTo(centerX + 60, centerY);
+                ctx.strokeStyle = '#7f8c8d';
+                ctx.lineWidth = 4;
+                ctx.stroke();
+                
+                // Draw pendulum string
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.lineTo(bobX, bobY);
+                ctx.strokeStyle = '#2c3e50';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                // Draw pivot point
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, 5, 0, 2 * Math.PI);
+                ctx.fillStyle = '#2c3e50';
+                ctx.fill();
+                
+                // Draw pendulum bob
+                ctx.beginPath();
+                ctx.arc(bobX, bobY, 14, 0, 2 * Math.PI);
+                ctx.fillStyle = '#e74c3c';
+                ctx.fill();
+                ctx.strokeStyle = '#c0392b';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                requestAnimationFrame(draw);
+            }
+            
+            CLILBridge.on('statechange', () => {
+                localTime = 0; 
+            });
+
+            draw();
+        };
     """;
     usage: """
         To use this extension, add `extension: "simple_pendulum_sim"` inside your simulation block.
