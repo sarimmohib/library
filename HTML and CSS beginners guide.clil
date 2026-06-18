@@ -1,0 +1,1485 @@
+@seed 847291;
+
+// ============================================================================
+// COMPREHENSIVE HTML & CSS FOUNDATIONS (CLIL v2.0)
+// A complete, adaptive, interactive, offline-first curriculum for beginners.
+// ============================================================================
+
+scene "toc_scene" {
+    index: "a0";
+    title: "Course Contents";
+    body: """
+        ## Welcome to Web Development
+        
+        This comprehensive module will take you from absolute zero to building responsive, semantic, and accessible web pages. 
+        
+        Please review the course outline below. You can click on any section to jump directly to it, or proceed sequentially.
+    """;
+    toc {
+        style: "numbered";
+        clickable: true;
+    }
+}
+
+scene "welcome_architecture" {
+    index: "a1";
+    concept: "web_architecture";
+    title: "The Architecture of the Web";
+    format: "markdown";
+    
+    body: """
+        ## How the Internet Actually Works
+        
+        Before writing a single line of code, we must understand the canvas. The World Wide Web is not a single entity; it is a massive, decentralized network of computers communicating via the **HTTP/HTTPS protocol**.
+        
+        ### The Client-Server Model
+        When you type a URL into your browser, you are initiating a **Client-Server** transaction:
+        1. **The Client (Your Browser):** Sends an HTTP `GET` request to a remote server.
+        2. **The Server:** Processes the request, locates the requested files (HTML, CSS, JS, images), and sends them back as an HTTP Response (usually with a `200 OK` status).
+        3. **The Rendering Engine:** Your browser parses the raw text-based HTML into a **Document Object Model (DOM)** tree, parses CSS into the **CSS Object Model (CSSOM)**, and combines them into a Render Tree to paint the pixels on your screen.
+        
+        ### The Core Triad
+        * **HTML (HyperText Markup Language):** The skeleton. It provides semantic structure and meaning.
+        * **CSS (Cascading Style Sheets):** the skin and clothing. It dictates visual presentation, layout, and aesthetics.
+        * **JavaScript:** The muscles and nervous system. It adds interactivity and dynamic behavior.
+        
+        *This course focuses exclusively on mastering the foundation: HTML and CSS.*
+    """;
+    
+    mcq "client_server_role" {
+        Q: "In the context of the web, what is the primary role of your web browser (e.g., Chrome, Safari, Firefox)?";
+        A: "b";
+        O: a) "It permanently stores and hosts the website's files for the public.", b) "It acts as the client, requesting resources from a server and rendering them.", c) "It compiles HTML source code into machine-level binary.", d) "It routes internet traffic between global data centers."
+        R: "The browser is the 'client' in the client-server model. It requests resources and interprets the returned markup and styles to render the visual interface.";
+        on_correct: {
+            feedback: "Exactly! The browser is the client that requests and renders.";
+            goto "html_boilerplate";
+        }
+        on_wrong: {
+            feedback: "Not quite. Remember the postal service analogy: the browser is the recipient reading the letter, not the post office routing it.";
+            @loopback "welcome_architecture" {
+                $review_architecture = $review_architecture + 1;
+            }
+        }
+    }
+}
+
+scene "html_boilerplate" {
+    index: "a2";
+    concept: "html_syntax";
+    title: "HTML Anatomy: The Document Shell";
+    format: "markdown";
+    
+    body: """
+        ## The HTML5 Boilerplate
+        
+        HTML uses **tags** to label content. Tags usually come in pairs: an opening tag `<p>` and a closing tag `</p>`. The content between them is an **element**.
+        
+        Every HTML document requires a foundational skeleton, known as the boilerplate. This tells the browser how to interpret the file.
+    """;
+    
+    code "html5_boilerplate" {
+        content: """
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>My First Webpage</title>
+            </head>
+            <body>
+                <h1>Hello, World!</h1>
+                <p>This is my first HTML document.</p>
+            </body>
+            </html>
+        """;
+    }
+    
+    body: """
+        ### Breakdown of the Boilerplate
+        * `<!DOCTYPE html>`: Instructs the browser to use **Standards Mode** (HTML5), preventing legacy "quirks mode" rendering.
+        * `<html lang="en">`: The root element. The `lang` attribute is critical for screen readers and search engines.
+        * `<head>`: Contains **metadata** (data about data). This includes the character set (`UTF-8`), the viewport settings for mobile responsiveness, and the page `<title>`. Content here is *not* visible on the page.
+        * `<body>`: Contains all the **visible content** (text, images, links) that the user will see and interact with.
+    """;
+
+    simulation "boilerplate_ide" {
+        description: "Interactive HTML5 Boilerplate Editor. Modify the visible content inside the <body> tags.";
+        raw: """
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <style>
+                    body { margin: 0; font-family: 'Segoe UI', sans-serif; background: #1e1e1e; color: #d4d4d4; display: flex; flex-direction: column; height: 100vh; }
+                    .toolbar { background: #2d2d2d; padding: 10px 20px; border-bottom: 1px solid #3e3e42; display: flex; align-items: center; }
+                    .toolbar-title { font-weight: bold; color: #007acc; margin-right: 20px; }
+                    .container { display: flex; flex: 1; overflow: hidden; }
+                    .pane { flex: 1; display: flex; flex-direction: column; border-right: 1px solid #3e3e42; }
+                    .pane-header { background: #252526; padding: 8px 15px; font-size: 12px; color: #969696; text-transform: uppercase; border-bottom: 1px solid #3e3e42; }
+                    textarea { flex: 1; background: #1e1e1e; color: #d4d4d4; border: none; font-family: 'Consolas', monospace; font-size: 14px; line-height: 1.5; padding: 15px; resize: none; outline: none; tab-size: 4; }
+                    iframe { flex: 1; border: none; background: #ffffff; }
+                    .status-bar { background: #007acc; color: #ffffff; padding: 4px 15px; font-size: 12px; }
+                </style>
+            </head>
+            <body>
+                <div class="toolbar">
+                    <span class="toolbar-title">HTML5 Boilerplate IDE</span>
+                    <span>Modify the text inside the &lt;body&gt; tags to see it render.</span>
+                </div>
+                <div class="container">
+                    <div class="pane">
+                        <div class="pane-header">index.html</div>
+                        <textarea id="code" spellcheck="false">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;My First Webpage&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Hello, World!&lt;/h1&gt;
+    &lt;p&gt;This is my very first HTML document.&lt;/p&gt;
+    &lt;p&gt;Try changing this text!&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</textarea>
+                    </div>
+                    <div class="pane" style="border-right: none;">
+                        <div class="pane-header">Browser Preview</div>
+                        <iframe id="preview"></iframe>
+                    </div>
+                </div>
+                <div class="status-bar">HTML5 | UTF-8 | Standards Mode</div>
+                <script>
+                    var codeArea = document.getElementById('code');
+                    var previewFrame = document.getElementById('preview');
+                    
+                    function updatePreview() {
+                        previewFrame.srcdoc = codeArea.value;
+                    }
+                    
+                    codeArea.addEventListener('input', updatePreview);
+                    codeArea.addEventListener('keydown', function(e) {
+                        if (e.key === 'Tab') {
+                            e.preventDefault();
+                            var start = this.selectionStart;
+                            var end = this.selectionEnd;
+                            this.value = this.value.substring(0, start) + '    ' + this.value.substring(end);
+                            this.selectionStart = this.selectionEnd = start + 4;
+                            updatePreview();
+                        }
+                    });
+                    updatePreview();
+                </script>
+            </body>
+            </html>
+        """;
+    }
+
+    fill_blank "doctype_check" {
+        Q: "What is the exact first line of code (the doctype declaration) required at the very top of every modern HTML5 document? (Case sensitive, include the brackets)";
+        solution: "<!DOCTYPE html>";
+        on_correct: {
+            feedback: "Perfect! This declaration ensures the browser uses standards mode.";
+            goto "html_text_semantics";
+        }
+        on_wrong: {
+            feedback: "Not quite. It starts with an exclamation mark and ends with 'html'.";
+        }
+    }
+}
+
+scene "html_text_semantics" {
+    index: "a3";
+    concept: "html_semantics";
+    title: "Text Formatting & Semantic Meaning";
+    format: "markdown";
+    
+    body: """
+        ## Structuring Text
+        
+        The web is primarily text. HTML provides specific elements to structure this text logically.
+        
+        * **Headings:** `<h1>` through `<h6>` create a document outline. `<h1>` is the main title (use only one per page!).
+        * **Paragraphs:** `<p>` defines a block of text.
+        * **Whitespace Collapsing:** Browsers collapse multiple spaces and line breaks into a single space. Use `<br>` for a line break, or start a new `<p>` for a new paragraph.
+    """;
+    
+    passage {
+        text: """
+            Consider the following two sentences in HTML. 
+            Sentence A: 'I <b>love</b> eating apples.' 
+            Sentence B: 'I <strong>love</strong> eating apples.' 
+            
+            While both will look identical on a standard screen (the word 'love' will be bold), they communicate different things to machines. Sentence A uses the `<b>` tag, which simply means 'make this text bold for visual attention.' Sentence B uses the `<strong>` tag, which means 'this word carries strong importance or urgency.' If a visually impaired user is listening to the page with a screen reader, the screen reader might change its vocal tone for Sentence B to emphasize the word, but it will just read Sentence A in a flat tone.
+        """;
+        
+        mcq "semantics_mcq" {
+            Q: "Based on the passage, why is it better to use `<strong>` instead of `<b>` for important text?";
+            A: "c";
+            O: a) "It makes the text a darker shade of black.", b) "It automatically translates the text into other languages.", c) "It provides semantic meaning that helps screen readers emphasize the text.", d) "It makes the website load faster."
+            R: "The passage explicitly states that `<strong>` carries semantic weight for assistive technologies to alter vocal inflection, whereas `<b>` is purely visual.";
+            on_correct: {
+                feedback: "Correct! Semantics are about meaning and accessibility, not just appearance.";
+                goto "html_links_media";
+            }
+            on_wrong: {
+                feedback: "Incorrect. Think about what the passage says regarding screen readers and meaning.";
+                @loopback "html_text_semantics" {
+                    $review_semantics = $review_semantics + 1;
+                }
+            }
+        }
+    }
+}
+
+scene "html_links_media" {
+    index: "a4";
+    concept: "html_media";
+    title: "Connecting the Web: Links and Images";
+    format: "markdown";
+    
+    body: """
+        ## Hyperlinks and Media
+        
+        The "HyperText" in HTML refers to links. The `<a>` (anchor) tag creates a hyperlink.
+        
+        * `href`: Specifies the destination URL.
+        * `target="_blank"`: Opens the link in a new tab. (Always pair with `rel="noopener noreferrer"` for security).
+        
+        Images are embedded using the `<img>` tag. It is a **void element** (no closing tag).
+        
+        * `src`: The path to the image file.
+        * `alt`: **Alternative text**. Crucial for accessibility. If the image fails to load, or if a screen reader is used, this text is read.
+    """;
+    
+    svg "link_diagram" {
+        width: "100%";
+        height: "150px";
+        content: """
+            <rect width="100%" height="100%" fill="#252526" rx="8"/>
+            <text x="20" y="40" fill="#007acc" font-family="monospace" font-size="16">&lt;a href="https://example.com"&gt;</text>
+            <text x="40" y="70" fill="#ce9178" font-family="sans-serif" font-size="16">Click here to visit Example</text>
+            <text x="20" y="100" fill="#007acc" font-family="monospace" font-size="16">&lt;/a&gt;</text>
+            <path d="M 350 70 L 450 70" stroke="#4ec9b0" stroke-width="2" marker-end="url(#arrow)"/>
+            <defs>
+                <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth">
+                    <path d="M0,0 L0,6 L9,3 z" fill="#4ec9b0" />
+                </marker>
+            </defs>
+            <text x="460" y="75" fill="#9cdcfe" font-family="sans-serif" font-size="14">Navigates to URL</text>
+        """;
+    }
+
+    simulation "media_builder" {
+        description: "Interactive Link and Image Attribute Builder.";
+        raw: """
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <style>
+                    body { margin: 0; font-family: 'Segoe UI', sans-serif; background: #1e1e1e; color: #d4d4d4; display: flex; height: 100vh; }
+                    .panel { width: 300px; background: #252526; padding: 20px; border-right: 1px solid #3e3e42; overflow-y: auto; }
+                    .panel h3 { color: #007acc; margin-top: 0; }
+                    .control { margin-bottom: 15px; }
+                    .control label { display: block; font-size: 12px; color: #9cdcfe; margin-bottom: 5px; }
+                    .control input[type="text"] { width: 100%; padding: 8px; background: #3c3c3c; color: #d4d4d4; border: 1px solid #555; border-radius: 4px; box-sizing: border-box; }
+                    .control input[type="checkbox"] { margin-right: 8px; }
+                    .main { flex: 1; padding: 30px; overflow-y: auto; }
+                    .code-block { background: #1e1e1e; border: 1px solid #3e3e42; padding: 15px; border-radius: 4px; font-family: monospace; font-size: 14px; color: #ce9178; margin-bottom: 20px; white-space: pre-wrap; }
+                    .render-area { background: #ffffff; color: #000; padding: 20px; border-radius: 4px; min-height: 100px; }
+                    .render-area img { max-width: 200px; height: auto; border: 1px solid #ccc; }
+                </style>
+            </head>
+            <body>
+                <div class="panel">
+                    <h3>Image Settings</h3>
+                    <div class="control">
+                        <label>src (Image URL)</label>
+                        <input type="text" id="img-src" value="https://picsum.photos/200/150">
+                    </div>
+                    <div class="control">
+                        <label>alt (Description)</label>
+                        <input type="text" id="img-alt" value="A random beautiful landscape">
+                    </div>
+                    <h3>Link Settings</h3>
+                    <div class="control">
+                        <label>href (Destination URL)</label>
+                        <input type="text" id="link-href" value="https://example.com">
+                    </div>
+                    <div class="control">
+                        <label><input type="checkbox" id="link-target"> Open in new tab (target="_blank")</label>
+                    </div>
+                </div>
+                <div class="main">
+                    <h2 style="color: #cccccc; margin-top:0;">Generated Code</h2>
+                    <div class="code-block" id="code-out"></div>
+                    <h2 style="color: #cccccc;">Rendered Output</h2>
+                    <div class="render-area" id="render-out"></div>
+                </div>
+                <script>
+                    var imgSrc = document.getElementById('img-src');
+                    var imgAlt = document.getElementById('img-alt');
+                    var linkHref = document.getElementById('link-href');
+                    var linkTarget = document.getElementById('link-target');
+                    var codeOut = document.getElementById('code-out');
+                    var renderOut = document.getElementById('render-out');
+                    
+                    function update() {
+                        var targetAttr = linkTarget.checked ? ' target="_blank" rel="noopener noreferrer"' : '';
+                        var imgCode = '<img src="' + imgSrc.value + '" alt="' + imgAlt.value + '">';
+                        var linkCode = '<a href="' + linkHref.value + '"' + targetAttr + '>Click here to visit link</a>';
+                        
+                        codeOut.innerText = imgCode + '\n\n' + linkCode;
+                        renderOut.innerHTML = imgCode + '<br><br>' + linkCode;
+                    }
+                    
+                    imgSrc.addEventListener('input', update);
+                    imgAlt.addEventListener('input', update);
+                    linkHref.addEventListener('input', update);
+                    linkTarget.addEventListener('change', update);
+                    update();
+                </script>
+            </body>
+            </html>
+        """;
+    }
+
+    fill_blank "accessibility_check" {
+        Q: "If an image is purely decorative (like a simple background swirl) and adds no informational value, what should the value of its `alt` attribute be set to for optimal screen reader behavior? (Type 'empty' if it should be blank)";
+        solution: "empty";
+        on_correct: {
+            feedback: "Correct! An empty string `alt=''` tells the screen reader to ignore it completely.";
+            goto "html_lists_tables";
+        }
+        on_wrong: {
+            feedback: "Hint: If it has no meaning, we don't want the screen reader to read a file name. We want it to say nothing.";
+        }
+    }
+}
+
+scene "html_lists_tables" {
+    index: "a5";
+    concept: "html_data";
+    title: "Organizing Data: Lists and Tables";
+    format: "markdown";
+    
+    body: """
+    ## Lists
+    
+    * **Unordered List (`<ul>`):** Creates a bulleted list.
+    * **Ordered List (`<ol>`):** Creates a numbered list.
+    * **List Item (`<li>`):** Must be placed inside `<ul>` or `<ol>`.
+    
+    ## Tables
+    
+    Tables are strictly for **tabular data** (like a schedule or financial report), never for page layout.
+    
+    * `<table>`: The wrapper.
+    * `<thead>`, `<tbody>`, `<tfoot>`: Structural sections.
+    * `<tr>`: Table Row.
+    * `<th>`: Table Header (bold, centered, accessible).
+    * `<td>`: Table Data (standard cell).
+    """;
+    
+    code "table_example" {
+        content: """
+            <table>
+                <thead>
+                    <tr>
+                        <th>Language</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>HTML</td>
+                        <td>Structure</td>
+                    </tr>
+                    <tr>
+                        <td>CSS</td>
+                        <td>Style</td>
+                    </tr>
+                </tbody>
+            </table>
+        """;
+    }
+
+    mcq "list_types" {
+        Q: "Which tag is used to create a numbered (ordered) list in HTML?";
+        A: "b";
+        O: a) "<ul>", b) "<ol>", c) "<nl>", d) "<list>"
+        R: "<ol> stands for Ordered List. <ul> is Unordered List.";
+        on_correct: {
+            feedback: "Correct! <ol> creates numbered lists.";
+            goto "html_forms";
+        }
+        on_wrong: {
+            feedback: "Incorrect. Remember: 'o' stands for ordered (numbers), 'u' stands for unordered (bullets).";
+        }
+    }
+}
+
+scene "html_forms" {
+    index: "a6";
+    concept: "html_forms";
+    title: "User Input: Building Interactive Forms";
+    format: "markdown";
+    
+    body: """
+    ## HTML Forms
+    
+    Forms allow users to submit data to a server. The `<form>` element wraps the inputs.
+    
+    * `<input>`: The most versatile element. Its `type` attribute changes its behavior (`text`, `password`, `email`, `checkbox`, `radio`, `submit`).
+    * `<label>`: **Crucial for accessibility.** The `for` attribute must match the `id` of the input. This allows users to click the text to focus the input.
+    * `<textarea>`: For multi-line text.
+    * `<select>` & `<option>`: For dropdown menus.
+    """;
+
+    simulation "form_builder" {
+        description: "Interactive Form Builder. Add inputs and see the HTML update live.";
+        raw: """
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <style>
+                    body { margin: 0; font-family: 'Segoe UI', sans-serif; background: #1e1e1e; color: #d4d4d4; display: flex; height: 100vh; }
+                    .panel { width: 250px; background: #252526; padding: 20px; border-right: 1px solid #3e3e42; overflow-y: auto; }
+                    .panel h3 { color: #007acc; margin-top: 0; font-size: 14px; }
+                    .btn { display: block; width: 100%; padding: 10px; margin-bottom: 10px; background: #0e639c; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 13px; text-align: left; }
+                    .btn:hover { background: #1177bb; }
+                    .main { flex: 1; display: flex; flex-direction: column; }
+                    .split { display: flex; flex: 1; overflow: hidden; }
+                    .code-pane { flex: 1; border-right: 1px solid #3e3e42; display: flex; flex-direction: column; }
+                    .preview-pane { flex: 1; display: flex; flex-direction: column; background: #f4f4f4; }
+                    .pane-header { background: #252526; padding: 8px 15px; font-size: 12px; color: #969696; text-transform: uppercase; border-bottom: 1px solid #3e3e42; }
+                    textarea { flex: 1; background: #1e1e1e; color: #d4d4d4; border: none; font-family: monospace; font-size: 14px; padding: 15px; resize: none; outline: none; }
+                    iframe { flex: 1; border: none; background: white; }
+                </style>
+            </head>
+            <body>
+                <div class="panel">
+                    <h3>Add Form Elements</h3>
+                    <button class="btn" onclick="addInput('text', 'Text Input')">+ Text Input</button>
+                    <button class="btn" onclick="addInput('email', 'Email Input')">+ Email Input</button>
+                    <button class="btn" onclick="addInput('password', 'Password')">+ Password</button>
+                    <button class="btn" onclick="addInput('checkbox', 'Checkbox')">+ Checkbox</button>
+                    <button class="btn" onclick="addTextarea()">+ Text Area</button>
+                    <button class="btn" onclick="addButton('submit', 'Submit')">+ Submit Button</button>
+                    <button class="btn" style="background:#5a1d1d;" onclick="resetForm()">Reset Form</button>
+                </div>
+                <div class="main">
+                    <div class="split">
+                        <div class="code-pane">
+                            <div class="pane-header">Generated HTML</div>
+                            <textarea id="code" readonly spellcheck="false"></textarea>
+                        </div>
+                        <div class="preview-pane">
+                            <div class="pane-header">Rendered Form</div>
+                            <iframe id="preview"></iframe>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    var codeArea = document.getElementById('code');
+                    var preview = document.getElementById('preview');
+                    var formHTML = '<form style="font-family:sans-serif; padding:20px;">\n';
+                    var counter = 0;
+                    
+                    function update() {
+                        var fullHTML = '<!DOCTYPE html><html><body>' + formHTML + '</form></body></html>';
+                        codeArea.value = formHTML;
+                        preview.srcdoc = fullHTML;
+                    }
+                    
+                    function addInput(type, label) {
+                        counter++;
+                        var id = 'field' + counter;
+                        formHTML += '  <label for="' + id + '">' + label + ':</label>\n';
+                        formHTML += '  <input type="' + type + '" id="' + id + '" name="' + id + '"><br><br>\n';
+                        update();
+                    }
+                    
+                    function addTextarea() {
+                        counter++;
+                        var id = 'field' + counter;
+                        formHTML += '  <label for="' + id + '">Message:</label><br>\n';
+                        formHTML += '  <textarea id="' + id + '" name="' + id + '" rows="4" cols="30"></textarea><br><br>\n';
+                        update();
+                    }
+                    
+                    function addButton(type, text) {
+                        formHTML += '  <button type="' + type + '">' + text + '</button>\n';
+                        update();
+                    }
+                    
+                    function resetForm() {
+                        formHTML = '<form style="font-family:sans-serif; padding:20px;">\n';
+                        counter = 0;
+                        update();
+                    }
+                    
+                    update();
+                </script>
+            </body>
+            </html>
+        """;
+    }
+
+    fill_blank "form_label_assoc" {
+        Q: "To properly associate a `<label>` with an `<input>`, the `for` attribute of the label must match which attribute of the input element?";
+        solution: "id";
+        on_correct: {
+            feedback: "Correct! The `for` attribute links to the input's `id`.";
+            goto "html_semantic_layout";
+        }
+        on_wrong: {
+            feedback: "Incorrect. It doesn't match the `name` or `type`. It matches the unique identifier of the element.";
+        }
+    }
+}
+
+scene "html_semantic_layout" {
+    index: "a7";
+    concept: "html_layout";
+    title: "Semantic HTML: Structuring the Modern Webpage";
+    format: "markdown";
+    
+    body: """
+    ## Semantic Layout Tags
+    
+    Instead of using `<div>` for everything, HTML5 provides tags that describe the *purpose* of the content. This improves SEO and Accessibility.
+    
+    * `<header>`: Introductory content or navigational links.
+    * `<nav>`: Major navigation blocks.
+    * `<main>`: The dominant content of the `<body>`. **Only one per page.**
+    * `<article>`: Self-contained content (e.g., a blog post).
+    * `<section>`: Thematic grouping of content.
+    * `<aside>`: Content tangentially related (e.g., sidebars).
+    * `<footer>`: Footer for a section or page.
+    """;
+    
+    svg "semantic_layout_diagram" {
+        width: "100%";
+        height: "350px";
+        content: """
+            <rect width="100%" height="100%" fill="#1e1e1e" rx="8"/>
+            <!-- Header -->
+            <rect x="20" y="20" width="560" height="50" fill="#007acc" rx="4"/>
+            <text x="300" y="50" fill="white" font-family="monospace" font-size="16" text-anchor="middle">&lt;header&gt; &amp; &lt;nav&gt;</text>
+            
+            <!-- Main -->
+            <rect x="20" y="80" width="400" height="200" fill="#2d2d2d" stroke="#007acc" stroke-width="2" rx="4"/>
+            <text x="220" y="110" fill="#007acc" font-family="monospace" font-size="16" text-anchor="middle">&lt;main&gt;</text>
+            
+            <!-- Article -->
+            <rect x="40" y="130" width="360" height="130" fill="#3c3c3c" stroke="#4ec9b0" stroke-width="1" rx="4"/>
+            <text x="220" y="160" fill="#4ec9b0" font-family="monospace" font-size="14" text-anchor="middle">&lt;article&gt;</text>
+            <rect x="60" y="180" width="320" height="60" fill="#1e1e1e" rx="2"/>
+            <text x="220" y="215" fill="#d4d4d4" font-family="sans-serif" font-size="12" text-anchor="middle">Content...</text>
+            
+            <!-- Aside -->
+            <rect x="430" y="80" width="150" height="200" fill="#2d2d2d" stroke="#ce9178" stroke-width="2" rx="4"/>
+            <text x="505" y="110" fill="#ce9178" font-family="monospace" font-size="14" text-anchor="middle">&lt;aside&gt;</text>
+            <rect x="445" y="130" width="120" height="40" fill="#1e1e1e" rx="2"/>
+            <rect x="445" y="180" width="120" height="40" fill="#1e1e1e" rx="2"/>
+            
+            <!-- Footer -->
+            <rect x="20" y="290" width="560" height="40" fill="#007acc" rx="4"/>
+            <text x="300" y="315" fill="white" font-family="monospace" font-size="16" text-anchor="middle">&lt;footer&gt;</text>
+        """;
+    }
+
+    mcq "semantic_main" {
+        Q: "How many `<main>` elements are allowed to be visible on a single HTML page?";
+        A: "a";
+        O: a) "Exactly one", b) "As many as you want", c) "At least two", d) "None, it's deprecated"
+        R: "The `<main>` element represents the dominant content of the document. There can only be one dominant content area per document.";
+        on_correct: {
+            feedback: "Perfect! Only one `<main>` per page.";
+            goto "css_intro";
+        }
+        on_wrong: {
+            feedback: "Incorrect. Think about the word 'main'. There can only be one primary focus.";
+        }
+    }
+}
+
+scene "css_intro" {
+    index: "b1";
+    concept: "css_selectors";
+    title: "CSS Foundations: Selectors and the Cascade";
+    format: "markdown";
+    
+    body: """
+    ## Introduction to CSS
+    
+    CSS (Cascading Style Sheets) controls the visual presentation. A CSS rule consists of a **selector** and a **declaration block**.
+    
+    ```css
+    selector {
+        property: value;
+    }
+    ```
+    
+    ### Types of Selectors
+    * **Element:** `p` (selects all `<p>` tags)
+    * **Class:** `.card` (selects elements with `class="card"`)
+    * **ID:** `#header` (selects the element with `id="header"`)
+    
+    ### The Cascade & Specificity
+    When multiple rules target the same element, CSS uses **Specificity** to determine the winner. It is calculated as a tuple `(a, b, c)`:
+    * **a:** Number of ID selectors.
+    * **b:** Number of class, attribute, and pseudo-class selectors.
+    * **c:** Number of type and pseudo-element selectors.
+    
+    *Inline styles* override all of these, and `!important` overrides inline styles (but should be avoided).
+    """;
+
+    simulation "css_playground" {
+        description: "Live CSS Selector and Property Playground.";
+        raw: """
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <style>
+                    body { margin: 0; font-family: 'Segoe UI', sans-serif; background: #1e1e1e; color: #d4d4d4; display: flex; flex-direction: column; height: 100vh; }
+                    .toolbar { background: #2d2d2d; padding: 10px 20px; border-bottom: 1px solid #3e3e42; }
+                    .container { display: flex; flex: 1; overflow: hidden; }
+                    .pane { flex: 1; display: flex; flex-direction: column; border-right: 1px solid #3e3e42; }
+                    .pane-header { background: #252526; padding: 8px 15px; font-size: 12px; color: #969696; text-transform: uppercase; border-bottom: 1px solid #3e3e42; }
+                    textarea { flex: 1; background: #1e1e1e; color: #d4d4d4; border: none; font-family: monospace; font-size: 14px; padding: 15px; resize: none; outline: none; }
+                    iframe { flex: 1; border: none; background: #fff; }
+                    .specificity-bar { background: #007acc; color: white; padding: 10px 20px; font-family: monospace; font-size: 14px; }
+                </style>
+            </head>
+            <body>
+                <div class="toolbar">CSS Selector & Style Tester</div>
+                <div class="container">
+                    <div class="pane">
+                        <div class="pane-header">HTML Structure</div>
+                        <textarea id="html-code" readonly spellcheck="false">&lt;div id="container"&gt;
+    &lt;h1 class="title"&gt;Hello&lt;/h1&gt;
+    &lt;p class="text special"&gt;Paragraph 1&lt;/p&gt;
+    &lt;p class="text"&gt;Paragraph 2&lt;/p&gt;
+    &lt;ul&gt;
+        &lt;li&gt;Item 1&lt;/li&gt;
+        &lt;li class="highlight"&gt;Item 2&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;</textarea>
+                    </div>
+                    <div class="pane">
+                        <div class="pane-header">CSS Styles</div>
+                        <textarea id="css-code" spellcheck="false">/* Try changing these! */
+p {
+    color: black;
+}
+
+.text {
+    color: blue;
+}
+
+#container .text {
+    color: green;
+}
+
+.special {
+    color: red !important;
+}
+
+li.highlight {
+    font-weight: bold;
+    background: yellow;
+}</textarea>
+                    </div>
+                    <div class="pane" style="border-right: none;">
+                        <div class="pane-header">Rendered Output</div>
+                        <iframe id="preview"></iframe>
+                    </div>
+                </div>
+                <div class="specificity-bar" id="spec-bar">Specificity Info: Edit CSS to see rules apply.</div>
+                <script>
+                    var htmlCode = document.getElementById('html-code');
+                    var cssCode = document.getElementById('css-code');
+                    var preview = document.getElementById('preview');
+                    var specBar = document.getElementById('spec-bar');
+                    
+                    function update() {
+                        var html = htmlCode.value;
+                        var css = cssCode.value;
+                        var doc = '<!DOCTYPE html><html><head><style>' + css + '</style></head><body style="padding:20px;">' + html + '</body></html>';
+                        preview.srcdoc = doc;
+                        
+                        var rules = css.match(/[^{}]+\{[^{}]*\}/g) || [];
+                        var info = "Active Rules: " + rules.length + " | ";
+                        if(css.includes('!important')) info += "⚠️ !important detected!";
+                        else info += "Normal Cascade";
+                        specBar.innerText = info;
+                    }
+                    
+                    cssCode.addEventListener('input', update);
+                    update();
+                </script>
+            </body>
+            </html>
+        """;
+    }
+
+    mcq "css_specificity_math" {
+        Q: "Calculate the specificity of the selector: `#header .nav a:hover`. Format your answer as (a, b, c).";
+        A: "c";
+        O: a) "(0, 2, 2)", b) "(1, 2, 1)", c) "(1, 3, 1)", d) "(1, 2, 2)"
+        R: "IDs (#header) = 1. Classes, attributes, pseudo-classes (.nav, :hover) = 2. Elements (a) = 1. Total = (1, 3, 1).";
+        on_correct: {
+            feedback: "Brilliant! You correctly counted the pseudo-class :hover in the 'b' column.";
+            goto "css_box_model";
+        }
+        on_wrong: {
+            feedback: "Incorrect. Remember: IDs are 'a', classes/pseudo-classes are 'b', elements/pseudo-elements are 'c'.";
+            @loopback "css_intro" {
+                $review_specificity = $review_specificity + 1;
+            }
+        }
+    }
+}
+
+scene "css_box_model" {
+    index: "b2";
+    concept: "css_box_model";
+    title: "The CSS Box Model: Spacing and Dimensions";
+    format: "markdown";
+    
+    body: """
+    ## The Box Model
+    
+    Every element in CSS is a rectangular box. The Box Model consists of four layers:
+    1. **Content:** The actual text or image.
+    2. **Padding:** Transparent space *inside* the border, surrounding the content.
+    3. **Border:** A line surrounding the padding and content.
+    4. **Margin:** Transparent space *outside* the border, separating the element from its neighbors.
+    
+    ### `box-sizing`
+    By default (`content-box`), if you set `width: 100px` and add `padding: 20px`, the total rendered width becomes `140px`. 
+    To fix this, modern CSS uses a global reset: `box-sizing: border-box;`. This includes padding and border in the specified `width`.
+    """;
+    
+    svg "box_model_diagram" {
+        width: "100%";
+        height: "300px";
+        content: """
+            <rect width="100%" height="100%" fill="#1e1e1e" rx="8"/>
+            <!-- Margin -->
+            <rect x="50" y="30" width="500" height="240" fill="rgba(255, 165, 0, 0.1)" stroke="#ffa500" stroke-dasharray="5,5"/>
+            <text x="60" y="50" fill="#ffa500" font-family="monospace" font-size="14">margin</text>
+            
+            <!-- Border -->
+            <rect x="100" y="60" width="400" height="180" fill="rgba(255, 255, 0, 0.1)" stroke="#ffff00" stroke-dasharray="5,5"/>
+            <text x="110" y="80" fill="#ffff00" font-family="monospace" font-size="14">border</text>
+            
+            <!-- Padding -->
+            <rect x="130" y="90" width="340" height="120" fill="rgba(0, 255, 0, 0.1)" stroke="#00ff00" stroke-dasharray="5,5"/>
+            <text x="140" y="110" fill="#00ff00" font-family="monospace" font-size="14">padding</text>
+            
+            <!-- Content -->
+            <rect x="180" y="120" width="240" height="60" fill="rgba(0, 122, 204, 0.4)" stroke="#007acc"/>
+            <text x="300" y="155" fill="white" font-family="monospace" font-size="16" text-anchor="middle">content</text>
+        """;
+    }
+
+    simulation "box_model_interactive" {
+        description: "Interactive Box Model Visualizer.";
+        raw: """
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <style>
+                    body { margin: 0; font-family: 'Segoe UI', sans-serif; background: #1e1e1e; color: #d4d4d4; display: flex; height: 100vh; }
+                    .controls { width: 300px; background: #252526; padding: 20px; border-right: 1px solid #3e3e42; overflow-y: auto; }
+                    .controls h3 { color: #007acc; margin-top: 0; }
+                    .slider-group { margin-bottom: 20px; }
+                    .slider-group label { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 5px; }
+                    .val { color: #007acc; font-weight: bold; }
+                    .visual-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #1e1e1e; padding: 40px; }
+                    .margin-box { background: rgba(255, 165, 0, 0.2); border: 2px dashed #ffa500; display: flex; align-items: center; justify-content: center; }
+                    .border-box { background: rgba(255, 255, 0, 0.3); border: 2px dashed #ffff00; display: flex; align-items: center; justify-content: center; }
+                    .padding-box { background: rgba(0, 255, 0, 0.3); border: 2px dashed #00ff00; display: flex; align-items: center; justify-content: center; }
+                    .content-box { background: rgba(0, 122, 204, 0.6); border: 2px solid #007acc; color: white; font-weight: bold; display: flex; align-items: center; justify-content: center; }
+                    .code-output { margin-top: 20px; background: #1e1e1e; border: 1px solid #3e3e42; padding: 15px; font-family: monospace; font-size: 13px; color: #9cdcfe; width: 100%; max-width: 400px; white-space: pre; }
+                    .toggle { margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+                </style>
+            </head>
+            <body>
+                <div class="controls">
+                    <h3>Box Model Controls</h3>
+                    <div class="toggle">
+                        <input type="checkbox" id="border-box-toggle">
+                        <label for="border-box-toggle" style="font-size: 14px; color: #d4d4d4;">Use box-sizing: border-box</label>
+                    </div>
+                    <div class="slider-group">
+                        <label>Margin <span class="val" id="margin-val">20px</span></label>
+                        <input type="range" id="margin" min="0" max="50" value="20">
+                    </div>
+                    <div class="slider-group">
+                        <label>Border <span class="val" id="border-val">5px</span></label>
+                        <input type="range" id="border" min="0" max="20" value="5">
+                    </div>
+                    <div class="slider-group">
+                        <label>Padding <span class="val" id="padding-val">15px</span></label>
+                        <input type="range" id="padding" min="0" max="50" value="15">
+                    </div>
+                    <div class="slider-group">
+                        <label>Width <span class="val" id="content-val">150px</span></label>
+                        <input type="range" id="content" min="50" max="250" value="150">
+                    </div>
+                </div>
+                <div class="visual-area">
+                    <div class="margin-box" id="margin-box">
+                        <div class="border-box" id="border-box">
+                            <div class="padding-box" id="padding-box">
+                                <div class="content-box" id="content-box">Content</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="code-output" id="code-out"></div>
+                </div>
+                <script>
+                    var m = document.getElementById('margin');
+                    var b = document.getElementById('border');
+                    var p = document.getElementById('padding');
+                    var c = document.getElementById('content');
+                    var toggle = document.getElementById('border-box-toggle');
+                    
+                    var marginBox = document.getElementById('margin-box');
+                    var borderBox = document.getElementById('border-box');
+                    var paddingBox = document.getElementById('padding-box');
+                    var contentBox = document.getElementById('content-box');
+                    var codeOut = document.getElementById('code-out');
+                    
+                    function update() {
+                        var mv = m.value;
+                        var bv = b.value;
+                        var pv = p.value;
+                        var cv = c.value;
+                        var isBorderBox = toggle.checked;
+                        
+                        document.getElementById('margin-val').innerText = mv + 'px';
+                        document.getElementById('border-val').innerText = bv + 'px';
+                        document.getElementById('padding-val').innerText = pv + 'px';
+                        document.getElementById('content-val').innerText = cv + 'px';
+                        
+                        marginBox.style.padding = mv + 'px';
+                        borderBox.style.borderWidth = bv + 'px';
+                        paddingBox.style.padding = pv + 'px';
+                        
+                        var totalWidth = 0;
+                        var cssText = '';
+                        
+                        if (isBorderBox) {
+                            borderBox.style.width = cv + 'px';
+                            borderBox.style.boxSizing = 'border-box';
+                            var contentW = parseInt(cv) - (parseInt(pv)*2) - (parseInt(bv)*2);
+                            if(contentW < 0) contentW = 0;
+                            contentBox.style.width = contentW + 'px';
+                            contentBox.style.height = '80px';
+                            totalWidth = parseInt(cv);
+                            cssText = '/* border-box model */\nbox-sizing: border-box;\nwidth: ' + cv + 'px;\npadding: ' + pv + 'px;\nborder: ' + bv + 'px solid;\nmargin: ' + mv + 'px;\n\n/* Content area shrinks to: ' + contentW + 'px */\n/* Total rendered width: ' + totalWidth + 'px */';
+                        } else {
+                            borderBox.style.boxSizing = 'content-box';
+                            borderBox.style.width = 'auto';
+                            contentBox.style.width = cv + 'px';
+                            contentBox.style.height = '80px';
+                            totalWidth = parseInt(cv) + (parseInt(pv)*2) + (parseInt(bv)*2);
+                            cssText = '/* content-box model (default) */\nbox-sizing: content-box;\nwidth: ' + cv + 'px;\npadding: ' + pv + 'px;\nborder: ' + bv + 'px solid;\nmargin: ' + mv + 'px;\n\n/* Total rendered width: ' + totalWidth + 'px */';
+                        }
+                        codeOut.innerText = cssText;
+                    }
+                    
+                    m.addEventListener('input', update);
+                    b.addEventListener('input', update);
+                    p.addEventListener('input', update);
+                    c.addEventListener('input', update);
+                    toggle.addEventListener('change', update);
+                    update();
+                </script>
+            </body>
+            </html>
+        """;
+    }
+
+    numeric_input "box_model_calc" {
+        Q: "An element has `box-sizing: content-box`, `width: 200px`, `padding: 20px`, `border: 5px solid`, and `margin: 10px`. What is the total horizontal space (in pixels) it occupies on the page?";
+        target: 270.0;
+        tolerance: 0.1;
+        on_correct: {
+            feedback: "Correct! 200 (content) + 40 (padding) + 10 (border) + 20 (margin) = 270px.";
+            goto "css_flexbox";
+        }
+        on_wrong: {
+            feedback: "Incorrect. Add content + left/right padding + left/right border + left/right margin.";
+        }
+    }
+}
+
+scene "css_flexbox" {
+    index: "b3";
+    concept: "css_flexbox";
+    title: "Modern 1D Layout: Mastering CSS Flexbox";
+    format: "markdown";
+    
+    body: """
+    ## Flexbox
+    
+    Flexbox is a one-dimensional layout model. It excels at distributing space and aligning items within a container.
+    
+    * **Container:** `display: flex;`
+    * **Main Axis:** Defined by `flex-direction` (default is `row`, horizontal).
+    * **Cross Axis:** Perpendicular to the main axis.
+    
+    ### Key Properties
+    * `justify-content`: Aligns items along the **main axis** (e.g., `center`, `space-between`).
+    * `align-items`: Aligns items along the **cross axis** (e.g., `center`, `stretch`).
+    * `gap`: Adds space between items without using margins.
+    """;
+
+    simulation "flexbox_visualizer" {
+        description: "Interactive Flexbox Playground.";
+        raw: """
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <style>
+                    body { margin: 0; font-family: 'Segoe UI', sans-serif; background: #1e1e1e; color: #d4d4d4; display: flex; height: 100vh; }
+                    .panel { width: 250px; background: #252526; padding: 20px; border-right: 1px solid #3e3e42; overflow-y: auto; }
+                    .panel h3 { color: #007acc; margin-top: 0; font-size: 14px; }
+                    .control { margin-bottom: 15px; }
+                    .control label { display: block; font-size: 12px; color: #9cdcfe; margin-bottom: 5px; text-transform: uppercase; }
+                    .control select { width: 100%; padding: 8px; background: #3c3c3c; color: #d4d4d4; border: 1px solid #555; border-radius: 4px; }
+                    .main { flex: 1; display: flex; flex-direction: column; padding: 30px; }
+                    .flex-container { flex: 1; background: #2d2d2d; border: 2px dashed #007acc; display: flex; padding: 20px; gap: 10px; transition: all 0.3s; }
+                    .flex-item { background: #007acc; color: white; padding: 20px; border-radius: 4px; font-weight: bold; display: flex; align-items: center; justify-content: center; min-width: 50px; min-height: 50px; }
+                    .code-display { margin-top: 20px; background: #1e1e1e; padding: 15px; border-radius: 4px; font-family: monospace; font-size: 14px; color: #ce9178; border: 1px solid #3e3e42; }
+                </style>
+            </head>
+            <body>
+                <div class="panel">
+                    <h3>Container Properties</h3>
+                    <div class="control">
+                        <label>flex-direction</label>
+                        <select id="direction">
+                            <option value="row">row</option>
+                            <option value="column">column</option>
+                        </select>
+                    </div>
+                    <div class="control">
+                        <label>justify-content</label>
+                        <select id="justify">
+                            <option value="flex-start">flex-start</option>
+                            <option value="center">center</option>
+                            <option value="space-between">space-between</option>
+                            <option value="space-around">space-around</option>
+                        </select>
+                    </div>
+                    <div class="control">
+                        <label>align-items</label>
+                        <select id="align">
+                            <option value="stretch">stretch</option>
+                            <option value="center">center</option>
+                            <option value="flex-end">flex-end</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="main">
+                    <div class="flex-container" id="container">
+                        <div class="flex-item">1</div>
+                        <div class="flex-item">2</div>
+                        <div class="flex-item">3</div>
+                    </div>
+                    <div class="code-display" id="code-out"></div>
+                </div>
+                <script>
+                    var container = document.getElementById('container');
+                    var codeOut = document.getElementById('code-out');
+                    var dir = document.getElementById('direction');
+                    var just = document.getElementById('justify');
+                    var ali = document.getElementById('align');
+                    
+                    function update() {
+                        container.style.flexDirection = dir.value;
+                        container.style.justifyContent = just.value;
+                        container.style.alignItems = ali.value;
+                        
+                        codeOut.innerText = '.container {\n    display: flex;\n    flex-direction: ' + dir.value + ';\n    justify-content: ' + just.value + ';\n    align-items: ' + ali.value + ';\n}';
+                    }
+                    
+                    dir.addEventListener('change', update);
+                    just.addEventListener('change', update);
+                    ali.addEventListener('change', update);
+                    update();
+                </script>
+            </body>
+            </html>
+        """;
+    }
+
+    mcq "flexbox_centering" {
+        Q: "You have a flex container with `flex-direction: row`. You want to perfectly center a child element both horizontally and vertically. Which CSS properties do you apply to the container?";
+        A: "c";
+        O: a) "text-align: center; vertical-align: middle;", b) "justify-content: flex-start; align-items: center;", c) "justify-content: center; align-items: center;", d) "margin: 0 auto; position: relative;"
+        R: "In a row direction, the main axis is horizontal (justify-content) and the cross axis is vertical (align-items). Setting both to 'center' perfectly centers the child.";
+        on_correct: {
+            feedback: "Spot on! The classic Flexbox centering trick.";
+            goto "css_grid";
+        }
+        on_wrong: {
+            feedback: "Incorrect. Remember: justify-content is main axis, align-items is cross axis.";
+        }
+    }
+}
+
+scene "css_grid" {
+    index: "b4";
+    concept: "css_grid";
+    title: "Modern 2D Layout: CSS Grid Fundamentals";
+    format: "markdown";
+    
+    body: """
+    ## CSS Grid
+    
+    While Flexbox is 1D (row OR column), CSS Grid is 2D (rows AND columns). It is the ultimate tool for macro-level page layouts.
+    
+    * **Container:** `display: grid;`
+    * **Tracks:** Defined using `grid-template-columns` and `grid-template-rows`.
+    * **The `fr` Unit:** Represents a **fraction** of the available space. `1fr 2fr` means the second column takes up twice as much space as the first.
+    * **Gap:** `gap: 20px;` adds space between grid cells.
+    """;
+
+    simulation "grid_layout_builder" {
+        description: "Interactive CSS Grid Builder.";
+        raw: """
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <style>
+                    body { margin: 0; font-family: 'Segoe UI', sans-serif; background: #1e1e1e; color: #d4d4d4; display: flex; height: 100vh; }
+                    .panel { width: 300px; background: #252526; padding: 20px; border-right: 1px solid #3e3e42; overflow-y: auto; }
+                    .panel h3 { color: #007acc; margin-top: 0; font-size: 14px; }
+                    .control { margin-bottom: 15px; }
+                    .control label { display: block; font-size: 12px; color: #9cdcfe; margin-bottom: 5px; }
+                    .control input { width: 100%; padding: 8px; background: #3c3c3c; color: #d4d4d4; border: 1px solid #555; border-radius: 4px; box-sizing: border-box; font-family: monospace; }
+                    .main { flex: 1; display: flex; flex-direction: column; padding: 30px; }
+                    .grid-container { flex: 1; background: #2d2d2d; border: 2px dashed #007acc; display: grid; padding: 10px; gap: 10px; grid-auto-rows: 80px; }
+                    .grid-item { background: #007acc; color: white; border-radius: 4px; font-weight: bold; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+                    .code-display { margin-top: 20px; background: #1e1e1e; padding: 15px; border-radius: 4px; font-family: monospace; font-size: 14px; color: #ce9178; border: 1px solid #3e3e42; }
+                </style>
+            </head>
+            <body>
+                <div class="panel">
+                    <h3>Grid Properties</h3>
+                    <div class="control">
+                        <label>grid-template-columns</label>
+                        <input type="text" id="cols" value="1fr 1fr 1fr">
+                    </div>
+                    <div class="control">
+                        <label>gap</label>
+                        <input type="text" id="gap" value="10px">
+                    </div>
+                    <p style="font-size: 12px; color: #888; margin-top: 20px;">Try: <br> <code>200px 1fr 2fr</code><br> <code>repeat(4, 1fr)</code></p>
+                </div>
+                <div class="main">
+                    <div class="grid-container" id="grid">
+                        <div class="grid-item">1</div>
+                        <div class="grid-item">2</div>
+                        <div class="grid-item">3</div>
+                        <div class="grid-item">4</div>
+                        <div class="grid-item">5</div>
+                        <div class="grid-item">6</div>
+                    </div>
+                    <div class="code-display" id="code-out"></div>
+                </div>
+                <script>
+                    var grid = document.getElementById('grid');
+                    var codeOut = document.getElementById('code-out');
+                    var cols = document.getElementById('cols');
+                    var gap = document.getElementById('gap');
+                    
+                    function update() {
+                        grid.style.gridTemplateColumns = cols.value;
+                        grid.style.gap = gap.value;
+                        
+                        codeOut.innerText = '.container {\n    display: grid;\n    grid-template-columns: ' + cols.value + ';\n    gap: ' + gap.value + ';\n}';
+                    }
+                    
+                    cols.addEventListener('input', update);
+                    gap.addEventListener('input', update);
+                    update();
+                </script>
+            </body>
+            </html>
+        """;
+    }
+
+    fill_blank "grid_fr_unit" {
+        Q: "In CSS Grid, what unit represents a 'fraction of the available space' in the container? (Just the two characters)";
+        solution: "fr";
+        on_correct: {
+            feedback: "Correct! The `fr` unit is essential for fluid grid layouts.";
+            goto "css_responsive";
+        }
+        on_wrong: {
+            feedback: "Incorrect. It's a two-letter unit specific to Grid and Flexbox.";
+        }
+    }
+}
+
+scene "css_responsive" {
+    index: "b5";
+    concept: "css_responsive";
+    title: "Responsive Design: Adapting to Any Screen";
+    format: "markdown";
+    
+    body: """
+    ## Responsive Web Design (RWD)
+    
+    Responsive design ensures your website looks great on phones, tablets, and desktops.
+    
+    ### The Viewport Meta Tag
+    This tag is **mandatory** in your `<head>`:
+    `<meta name="viewport" content="width=device-width, initial-scale=1.0">`
+    Without it, mobile browsers will render the page at a fake desktop width and zoom out.
+    
+    ### Media Queries
+    Media queries allow you to apply CSS rules only when certain conditions are met (like screen width).
+    
+    ```css
+    @media (max-width: 600px) {
+        .container {
+            flex-direction: column;
+        }
+    }
+    ```
+    """;
+
+    simulation "responsive_viewport_tester" {
+        description: "Responsive Viewport Tester. Drag the slider to simulate different device widths.";
+        raw: """
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <style>
+                    body { margin: 0; font-family: 'Segoe UI', sans-serif; background: #1e1e1e; color: #d4d4d4; display: flex; flex-direction: column; height: 100vh; }
+                    .toolbar { background: #2d2d2d; padding: 15px 20px; border-bottom: 1px solid #3e3e42; display: flex; align-items: center; gap: 20px; }
+                    .toolbar label { font-size: 14px; }
+                    input[type="range"] { width: 300px; }
+                    .width-display { font-family: monospace; color: #007acc; font-weight: bold; min-width: 60px; }
+                    .device-label { font-size: 12px; color: #9cdcfe; background: #333; padding: 4px 8px; border-radius: 4px; }
+                    .workspace { flex: 1; display: flex; justify-content: center; align-items: flex-start; padding: 30px; overflow: auto; background: #181818; }
+                    .device-frame { background: #fff; border: 4px solid #333; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transition: width 0.2s; height: 600px; }
+                    iframe { width: 100%; height: 100%; border: none; }
+                </style>
+            </head>
+            <body>
+                <div class="toolbar">
+                    <label>Viewport Width:</label>
+                    <input type="range" id="width-slider" min="320" max="1200" value="1000">
+                    <span class="width-display" id="width-val">1000px</span>
+                    <span class="device-label" id="device-label">Desktop</span>
+                </div>
+                <div class="workspace">
+                    <div class="device-frame" id="frame" style="width: 1000px;">
+                        <iframe id="preview"></iframe>
+                    </div>
+                </div>
+                <script>
+                    var slider = document.getElementById('width-slider');
+                    var widthVal = document.getElementById('width-val');
+                    var deviceLabel = document.getElementById('device-label');
+                    var frame = document.getElementById('frame');
+                    var preview = document.getElementById('preview');
+                    
+                    var responsiveHTML = '<!DOCTYPE html><html><head><style>' +
+                        'body { font-family: sans-serif; margin: 0; padding: 20px; transition: background 0.3s; }' +
+                        '.container { display: flex; flex-wrap: wrap; gap: 20px; }' +
+                        '.box { background: #007acc; color: white; padding: 20px; border-radius: 8px; flex: 1; min-width: 200px; text-align: center; }' +
+                        'h1 { font-size: 2rem; }' +
+                        '@media (max-width: 768px) { body { background: #e0f7fa; } h1 { color: #006064; } .box { min-width: 100%; background: #00838f; } }' +
+                        '@media (max-width: 480px) { body { background: #ffe0b2; } h1 { color: #e65100; font-size: 1.5rem; } .box { background: #f57c00; } }' +
+                        '</style></head><body>' +
+                        '<h1>Responsive Layout</h1>' +
+                        '<div class="container">' +
+                        '<div class="box">Box 1</div>' +
+                        '<div class="box">Box 2</div>' +
+                        '<div class="box">Box 3</div>' +
+                        '</div></body></html>';
+                        
+                    preview.srcdoc = responsiveHTML;
+                    
+                    function update() {
+                        var w = slider.value;
+                        frame.style.width = w + 'px';
+                        widthVal.innerText = w + 'px';
+                        
+                        if (w <= 480) deviceLabel.innerText = 'Mobile (<= 480px)';
+                        else if (w <= 768) deviceLabel.innerText = 'Tablet (<= 768px)';
+                        else deviceLabel.innerText = 'Desktop (> 768px)';
+                    }
+                    
+                    slider.addEventListener('input', update);
+                    update();
+                </script>
+            </body>
+            </html>
+        """;
+    }
+
+    mcq "viewport_meta" {
+        Q: "Why is the `<meta name='viewport' ...>` tag essential for responsive design?";
+        A: "b";
+        O: a) "It makes the website load faster on mobile networks.", b) "It prevents mobile browsers from rendering the page at a fake desktop width and zooming out.", c) "It automatically translates the CSS into mobile-specific properties.", d) "It enables touch events on the screen."
+        R: "Without this tag, mobile browsers assume the page is a desktop site, render it at that width, and shrink it to fit the screen, breaking responsive CSS.";
+        on_correct: {
+            feedback: "Exactly! It forces the browser to use the actual device width.";
+            goto "final_project";
+        }
+        on_wrong: {
+            feedback: "Incorrect. Think about what happens to the 'width' of the page on a phone without it.";
+        }
+    }
+}
+
+scene "final_project" {
+    index: "c1";
+    concept: "final_synthesis";
+    title: "Final Project: Build a Responsive Portfolio Card";
+    format: "markdown";
+    
+    body: """
+    ## Capstone Project
+    
+    It's time to synthesize everything you've learned. You will build a **Responsive Portfolio Card**.
+    
+    ### Requirements:
+    1. **Semantic HTML:** Use `<article>`, `<header>`, `<section>`, and `<footer>`.
+    2. **Box Model:** Use `box-sizing: border-box` globally.
+    3. **Flexbox:** Center the card on the screen and align internal elements.
+    4. **Responsive:** Use a media query to stack the buttons vertically on small screens.
+    
+    Use the IDE below. I have provided a robust starting point. Modify the HTML and CSS to complete the design.
+    """;
+    
+    attachment "cheat_sheet" {
+        src: "data:text/plain;base64,SHRtbCAmIENTUyBDaGVhdCBTaGVldAoKMT.gIERvQ1VQRSAoaHRtbCkKMi4gU0VNQU5USUMgVEFHUyAoaGVhZGVyLCBtYWluLCBmb290ZXIpCjMuIEJPWCBNT0RFTCAoYm9yZGVyLWJveCkKNC4gRkxFWEJPWCAoanVzdGlmeS1jb250ZW50LCBhbGlnbi1pdGVtcykKNS4gR1JJRCAoZ3JpZC10ZW1wbGF0ZS1jb2x1bW5zLCBmcikKNi4gUkVTUE9OU0lWRSAodmlld3BvcnQsIEBtZWRpYSk=";
+        label: "Download HTML & CSS Cheat Sheet (TXT)";
+    }
+
+    simulation "final_ide" {
+        description: "The Ultimate IDE. Write your HTML and CSS to build the final Responsive Portfolio Card.";
+        raw: """
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <style>
+                    body { margin: 0; font-family: 'Segoe UI', sans-serif; background: #1e1e1e; color: #d4d4d4; display: flex; flex-direction: column; height: 100vh; }
+                    .header { background: #007acc; color: white; padding: 10px 20px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+                    .workspace { display: flex; flex: 1; overflow: hidden; }
+                    .editors { flex: 1; display: flex; flex-direction: column; border-right: 1px solid #3e3e42; }
+                    .tabs { display: flex; background: #252526; border-bottom: 1px solid #3e3e42; }
+                    .tab { padding: 10px 20px; cursor: pointer; color: #969696; border-right: 1px solid #3e3e42; }
+                    .tab.active { background: #1e1e1e; color: white; }
+                    .code-container { flex: 1; position: relative; }
+                    textarea { width: 100%; height: 100%; background: #1e1e1e; color: #d4d4d4; border: none; font-family: monospace; font-size: 14px; padding: 15px; resize: none; outline: none; box-sizing: border-box; }
+                    .preview { flex: 1; background: #f0f2f5; display: flex; flex-direction: column; }
+                    .preview-header { background: #252526; padding: 10px 20px; color: #969696; font-size: 12px; text-transform: uppercase; border-bottom: 1px solid #3e3e42; }
+                    iframe { flex: 1; border: none; }
+                    .hidden { display: none; }
+                </style>
+            </head>
+            <body>
+                <div class="header">
+                    <span>Final Project: Responsive Portfolio Card</span>
+                    <span style="font-weight: normal; font-size: 12px;">HTML5 & CSS3 Mastery</span>
+                </div>
+                <div class="workspace">
+                    <div class="editors">
+                        <div class="tabs">
+                            <div class="tab active" id="tab-html" onclick="switchTab('html')">index.html</div>
+                            <div class="tab" id="tab-css" onclick="switchTab('css')">style.css</div>
+                        </div>
+                        <div class="code-container" id="html-container">
+                            <textarea id="html-code" spellcheck="false">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Portfolio Card&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;article class="card"&gt;
+        &lt;header class="card-header"&gt;
+            &lt;img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Avatar of Jane Doe"&gt;
+            &lt;h1&gt;Jane Doe&lt;/h1&gt;
+            &lt;p class="title"&gt;Senior Frontend Engineer&lt;/p&gt;
+        &lt;/header&gt;
+        &lt;section class="card-body"&gt;
+            &lt;p&gt;Passionate about building accessible, performant, and beautiful web experiences.&lt;/p&gt;
+        &lt;/section&gt;
+        &lt;footer class="card-footer"&gt;
+            &lt;a href="#" class="btn primary"&gt;View Projects&lt;/a&gt;
+            &lt;a href="#" class="btn secondary"&gt;Contact&lt;/a&gt;
+        &lt;/footer&gt;
+    &lt;/article&gt;
+&lt;/body&gt;
+&lt;/html&gt;</textarea>
+                        </div>
+                        <div class="code-container hidden" id="css-container">
+                            <textarea id="css-code" spellcheck="false">/* Global Reset */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #f0f2f5;
+    padding: 20px;
+}
+
+.card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-header {
+    background: linear-gradient(135deg, #007acc, #005a9e);
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.card-header img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 4px solid white;
+    margin-bottom: 15px;
+}
+
+.card-header h1 { font-size: 24px; margin-bottom: 5px; }
+.title { opacity: 0.9; font-size: 14px; }
+
+.card-body {
+    padding: 25px;
+    color: #555;
+    line-height: 1.6;
+    flex: 1;
+}
+
+.card-footer {
+    padding: 20px 25px;
+    border-top: 1px solid #eee;
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    flex: 1;
+    text-align: center;
+    padding: 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.btn.primary { background: #007acc; color: white; }
+.btn.secondary { background: #e0e0e0; color: #333; }
+
+/* TODO: Add Media Query for screens < 480px to stack buttons */
+</textarea>
+                        </div>
+                    </div>
+                    <div class="preview">
+                        <div class="preview-header">Live Preview</div>
+                        <iframe id="final-preview"></iframe>
+                    </div>
+                </div>
+                <script>
+                    var htmlCode = document.getElementById('html-code');
+                    var cssCode = document.getElementById('css-code');
+                    var frame = document.getElementById('final-preview');
+                    var htmlCont = document.getElementById('html-container');
+                    var cssCont = document.getElementById('css-container');
+                    var tabHtml = document.getElementById('tab-html');
+                    var tabCss = document.getElementById('tab-css');
+                    
+                    function update() {
+                        var html = htmlCode.value;
+                        var css = cssCode.value;
+                        var doc = html.replace('</head>', '<style>' + css + '</style></head>');
+                        frame.srcdoc = doc;
+                    }
+                    
+                    function switchTab(tab) {
+                        if (tab === 'html') {
+                            htmlCont.classList.remove('hidden');
+                            cssCont.classList.add('hidden');
+                            tabHtml.classList.add('active');
+                            tabCss.classList.remove('active');
+                        } else {
+                            htmlCont.classList.add('hidden');
+                            cssCont.classList.remove('hidden');
+                            tabCss.classList.add('active');
+                            tabHtml.classList.remove('active');
+                        }
+                    }
+                    
+                    htmlCode.addEventListener('input', update);
+                    cssCode.addEventListener('input', update);
+                    update();
+                </script>
+            </body>
+            </html>
+        """;
+    }
+
+    fill_blank "final_completion" {
+        Q: "To officially complete this comprehensive lesson and certify your mastery of HTML & CSS foundations, type the exact phrase 'I AM A WEB DEVELOPER' (in all caps) below:";
+        solution: "I AM A WEB DEVELOPER";
+        on_correct: {
+            feedback: "Congratulations! You have successfully completed the comprehensive HTML & CSS Foundations lecture.";
+            goto "lesson_end";
+        }
+        on_wrong: {
+            feedback: "Make sure you typed it exactly as requested, in all caps!";
+        }
+    }
+}
+
+scene "lesson_end" {
+    index: "c2";
+    title: "Module Complete: Next Steps";
+    format: "markdown";
+    
+    body: """
+    ## Congratulations!
+    
+    You have successfully navigated the foundational specifications of HTML5 and CSS3. 
+    
+    ### What's Next?
+    To advance your skills, you should explore:
+    1. **JavaScript:** For DOM manipulation and interactivity.
+    2. **CSS Animations & Transitions:** To bring your layouts to life.
+    3. **Web Accessibility (WCAG):** To ensure your sites are usable by everyone.
+    4. **CSS Architectures:** Like BEM (Block Element Modifier) for scalable styling.
+    
+    The web is your canvas now. Keep building, keep experimenting, and never stop learning!
+    """;
+}

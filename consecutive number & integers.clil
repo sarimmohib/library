@@ -1,0 +1,634 @@
+@seed 12345;
+
+// ============================================================
+// TABLE OF CONTENTS
+// ============================================================
+scene "toc" {
+    index: "00";
+    title: "Table of Contents";
+    body: "
+        This adaptive lesson covers all major aspects of solving problems on consecutive integers.
+        You will learn:
+        
+        1. Definitions and basic representations (Scene 01)
+        2. Sum of consecutive integers – formulas and strategies (Scene 02)
+        3. Product of consecutive integers – quadratic equations and factoring (Scene 03)
+        4. Sums and differences of squares (Scene 04)
+        5. Advanced shortcuts, average/median, and special cases (Scene 05)
+        6. Comprehensive practice with diagnostic questions (Scene 06)
+        7. Interactive simulation – visualising consecutive sums (Scene 07)
+        
+        Each topic adapts to your current mastery level.
+        Complete the diagnostic questions to advance and receive personalised explanations.
+    ";
+}
+
+// ============================================================
+// SCENE 01: DEFINITIONS AND BASIC REPRESENTATIONS
+// ============================================================
+scene "intro" {
+    index: "01";
+    concept: "consecutive";
+    title: "What Are Consecutive Integers?";
+
+    body: "
+        Consecutive integers are integers that follow one another in order, each differing by 1.
+        For example: 5, 6, 7, 8, 9.
+        
+        General form for n consecutive integers:
+        \\( x, x+1, x+2, \\ldots, x+(n-1) \\)
+        
+        Consecutive even integers differ by 2:
+        \\( 2x, 2x+2, 2x+4, \\ldots \\)
+        
+        Consecutive odd integers also differ by 2:
+        \\( 2x+1, 2x+3, 2x+5, \\ldots \\)
+        
+        When solving problems, always choose a variable for the first (or middle) integer to simplify equations.
+        The choice of representation often determines how easy the algebra becomes.
+    ";
+
+    tier: 1 {
+        body: "
+            Start with the simplest: three consecutive integers can be written as \\( x, x+1, x+2 \\).
+            For even or odd, use \\( x, x+2, x+4 \\).
+            Practice identifying the pattern.
+        ";
+    }
+    tier: 2 {
+        body: "
+            You already understand the basic notation. Now recognise that for any arithmetic sequence,
+            the average equals the median when the count is odd. This is a powerful shortcut.
+            For example, the average of five consecutive integers is the middle one.
+        ";
+    }
+    tier: 3 {
+        body: "
+            Beyond simple notation, you can exploit symmetry. For an odd number of consecutive integers,
+            the sum is always a multiple of the middle number. For even counts, the sum is twice the
+            average of the two middle numbers. These principles are essential for rapid mental calculation.
+        ";
+    }
+
+    mcq "rep_check" {
+        Q: "Which of the following correctly represents three consecutive odd integers?";
+        A: "b";
+        O: a) "\\( x, x+1, x+2 \\)", b) "\\( 2x+1, 2x+3, 2x+5 \\)", c) "\\( 2x, 2x+1, 2x+2 \\)", d) "\\( x, x+2, x+4 \\)";
+        R: "Consecutive odd integers differ by 2. The general form is \\( 2x+1, 2x+3, 2x+5 \\). Option d misses the odd condition (x may be odd, but it is not explicit). Option b is correct.";
+        on_correct: {
+            feedback: "Correct! You understand the representation.";
+            goto "sum_basic";
+        }
+        on_wrong: {
+            feedback: "Remember, odd numbers differ by 2. Use \\( 2x+1 \\) as the first odd.";
+        }
+    }
+}
+
+// ============================================================
+// SCENE 02: SUM OF CONSECUTIVE INTEGERS
+// ============================================================
+scene "sum_basic" {
+    index: "02";
+    concept: "consecutive";
+    title: "Sum of Consecutive Integers";
+
+    body: "
+        The sum of \\( n \\) consecutive integers starting with \\( x \\) is:
+        \\[ S = \\frac{n}{2} \\left(2x + n - 1\\right) \\]
+        Equivalently, using the first and last terms: \\[ S = n \\cdot \\frac{\\text{first}+\\text{last}}{2} \\].
+        
+        For an odd number of terms, the sum is \\( n \\times \\text{middle} \\).
+        For an even number, the sum is \\( n \\times \\text{average of the two middle terms} \\).
+        
+        Let's apply these formulas.
+    ";
+
+    tier: 1 {
+        body: "
+            Example: The sum of three consecutive integers is 96. Find the smallest.
+            Let them be \\( x, x+1, x+2 \\). Then \\( 3x+3 = 96 \\Rightarrow x = 31 \\).
+            So the answer is 31.
+        ";
+    }
+    tier: 2 {
+        body: "
+            Example: The sum of four consecutive even integers is 60. Find the largest.
+            Let them be \\( 2x, 2x+2, 2x+4, 2x+6 \\). Sum = \\( 8x+12 = 60 \\Rightarrow x=6 \\).
+            Largest = \\( 2*6+6 = 18 \\).
+            Notice we could also use average: \\( \\text{average} = 60/4 = 15 \\), and since they are even,
+            the middle numbers are 14 and 16, so the largest is 18.
+        ";
+    }
+    tier: 3 {
+        body: "
+            You can solve complex variants, e.g., 'The sum of three consecutive integers is 21 more than the smallest integer.'
+            Set up: \\( x+(x+1)+(x+2) = x+21 \\Rightarrow 3x+3 = x+21 \\Rightarrow 2x=18 \\Rightarrow x=9 \\).
+            The middle is 10.
+            Also be comfortable with negative numbers and zero. The sum of five consecutive integers can be zero only if the middle is zero.
+        ";
+    }
+
+    numeric_input "sum_test1" {
+        Q: "Find the smallest of three consecutive integers whose sum is 72.";
+        target: 23;
+        tolerance: 0;
+        on_correct: {
+            feedback: "Excellent! \\( 23+24+25 = 72 \\).";
+            goto "product_basic";
+        }
+        on_wrong: {
+            feedback: "Let \\( x, x+1, x+2 \\) and set \\( 3x+3=72 \\). Solve for x.";
+        }
+    }
+}
+
+// ============================================================
+// SCENE 03: PRODUCT OF CONSECUTIVE INTEGERS
+// ============================================================
+scene "product_basic" {
+    index: "03";
+    concept: "consecutive";
+    title: "Product of Consecutive Integers";
+
+    body: "
+        For two consecutive integers, the product is \\( x(x+1) \\). For two consecutive odd/even integers,
+        it's \\( x(x+2) \\). These lead to quadratic equations.
+        Often the numbers are small enough to factor mentally, but sometimes a quadratic formula is needed.
+        Also, product problems can involve three or more numbers; then we factor the product into the required
+        sequence.
+    ";
+
+    tier: 1 {
+        body: "
+            Example: The product of two consecutive positive integers is 72. Find their sum.
+            \\( x(x+1)=72 \\Rightarrow x^2+x-72=0 \\Rightarrow (x+9)(x-8)=0 \\Rightarrow x=8 \\). Sum = 17.
+            If the numbers are consecutive odd: \\( x(x+2)=143 \\Rightarrow x^2+2x-143=0 \\Rightarrow x=11 \\), sum = 24.
+        ";
+    }
+    tier: 2 {
+        body: "
+            For three consecutive integers: \\( x(x+1)(x+2) = 336 \\). Factor 336: \\( 6 \\times 7 \\times 8 = 336 \\), so sum = 21.
+            Alternatively, solve the cubic, but factoring is quicker.
+            When the product is large, consider prime factorization to identify the sequence.
+        ";
+    }
+    tier: 3 {
+        body: "
+            Sometimes the problem gives a relationship between product and sum, e.g., 'The product of two consecutive integers is 41 more than their sum.'
+            Solve: \\( x(x+1) = (2x+1) + 41 \\Rightarrow x^2 + x = 2x + 42 \\Rightarrow x^2 - x - 42 = 0 \\Rightarrow x=7 \\).
+            Also handle cases where the integers may be negative; the product is positive if both negative.
+        ";
+    }
+
+    mcq "product_mcq2" {
+        Q: "The product of two consecutive odd integers is 143. What is the larger integer?";
+        A: "c";
+        O: a) "11", b) "12", c) "13", d) "14";
+        R: "Let \\( n(n+2)=143 \\Rightarrow n^2+2n-143=0 \\Rightarrow (n+13)(n-11)=0 \\Rightarrow n=11 \\), larger = 13.";
+        on_correct: {
+            feedback: "Correct! 11 and 13 multiply to 143.";
+            goto "squares_scene";
+        }
+        on_wrong: {
+            feedback: "Set up \\( x(x+2)=143 \\) and solve the quadratic.";
+        }
+    }
+}
+
+// ============================================================
+// SCENE 04: SUMS AND DIFFERENCES OF SQUARES
+// ============================================================
+scene "squares_scene" {
+    index: "04";
+    concept: "consecutive";
+    title: "Squares of Consecutive Integers";
+
+    body: "
+        Often problems involve the sum or difference of squares of consecutive integers.
+        Key identities:
+        \\[ (n+1)^2 - n^2 = 2n+1 \\]
+        \\[ n^2 + (n+1)^2 = 2n^2 + 2n + 1 \\]
+        For consecutive even/odd, use \\( (2x+2)^2 - (2x)^2 = 8x+4 \\).
+        
+        These can be solved by factoring or by using the sum of squares formula.
+    ";
+
+    tier: 1 {
+        body: "
+            Example: The sum of the squares of two consecutive positive integers is 145. Find their sum.
+            Let \\( n^2+(n+1)^2=145 \\Rightarrow 2n^2+2n+1=145 \\Rightarrow n^2+n-72=0 \\Rightarrow n=8 \\).
+            Sum = 17.
+        ";
+    }
+    tier: 2 {
+        body: "
+            Example: The difference between the squares of two consecutive integers is 15. Find the larger.
+            \\( (n+1)^2 - n^2 = 2n+1 = 15 \\Rightarrow n=7 \\), larger = 8.
+            This is much faster than expanding.
+        ";
+    }
+    tier: 3 {
+        body: "
+            For consecutive even: \\( (2x+2)^2 - (2x)^2 = 8x+4 = 44 \\Rightarrow x=5 \\), larger = 12.
+            Also, the sum of squares of three consecutive integers can be solved by centering: let them be \\( a-1, a, a+1 \\), then sum of squares = \\( 3a^2+2 \\). This simplifies algebra.
+        ";
+    }
+
+    numeric_input "squares_numeric" {
+        Q: "The difference between the squares of two consecutive integers is 21. Find the larger integer.";
+        target: 11;
+        tolerance: 0;
+        on_correct: {
+            feedback: "Correct! \\( 2n+1=21 \\Rightarrow n=10 \\), larger = 11.";
+            goto "advanced_scene";
+        }
+        on_wrong: {
+            feedback: "Use \\( (n+1)^2 - n^2 = 2n+1 \\). Set equal to 21 and solve for n.";
+        }
+    }
+}
+
+// ============================================================
+// SCENE 05: ADVANCED SHORTCUTS AND SPECIAL CASES
+// ============================================================
+scene "advanced_scene" {
+    index: "05";
+    concept: "consecutive";
+    title: "Advanced Shortcuts and Critics";
+
+    body: "
+        This scene consolidates powerful strategies:
+        - For an odd number of consecutive integers, the average is the middle integer.
+        - For an even number, the average is halfway between the two middle integers.
+        - If the sum is given, you can directly find the middle (or the two middles) without setting up variables.
+        - Be careful with negative integers; the same formulas work.
+        - Sometimes the problem may have multiple solutions; always check constraints (positive, integer).
+        - When the product is given, factorisation is often faster than solving quadratics.
+    ";
+
+    tier: 1 {
+        body: "
+            Example: The average of 7 consecutive integers is 20. Find the largest.
+            Since there are 7 terms (odd), the middle is the average = 20. The numbers are 17,18,19,20,21,22,23; largest = 23.
+            This avoids setting up variables.
+        ";
+    }
+    tier: 2 {
+        body: "
+            Example: The average of 12 consecutive integers is 23.5. Find the sum of the 4th and 9th.
+            Since average = (first+last)/2, the sum of first and last = 47. The 4th and 9th are symmetric about the average, so their sum equals first+last = 47.
+            This is a powerful symmetry argument.
+        ";
+    }
+    tier: 3 {
+        body: "
+            Critics: Some problems may have no solution if the constraints are inconsistent (e.g., sum of three consecutive odd integers equals an even number). Always check parity.
+            Also, for product problems, consider both positive and negative factor pairs. If the product is negative, one integer negative, the other positive (if consecutive) – adjust signs accordingly.
+            Additionally, for large numbers, use the quadratic formula if factoring is cumbersome.
+        ";
+    }
+
+    mcq "advanced_mcq" {
+        Q: "The average of 9 consecutive integers is 0. What is the product of the smallest and the largest?";
+        A: "a";
+        O: a) "-16", b) "0", c) "16", d) "20";
+        R: "Since there are 9 terms (odd), the middle is 0. Integers: -4,-3,-2,-1,0,1,2,3,4. Product of smallest (-4) and largest (4) = -16.";
+        on_correct: {
+            feedback: "Perfect! Symmetry works.";
+            goto "practice_scene";
+        }
+        on_wrong: {
+            feedback: "Remember, for odd count, the average equals the middle. List the numbers around zero.";
+        }
+    }
+}
+
+// ============================================================
+// SCENE 06: COMPREHENSIVE PRACTICE (DIAGNOSTIC QUESTIONS)
+// ============================================================
+scene "practice_scene" {
+    index: "06";
+    concept: "consecutive";
+    title: "Practice Diagnostic Questions";
+
+    body: "
+        Now apply your skills to a variety of problems. Each question will update your mastery level.
+        Aim for full mastery (≥0.70) to unlock the final simulation.
+    ";
+
+    mcq "p1" {
+        Q: "The sum of three consecutive integers is 96. What is the smallest integer?";
+        A: "b";
+        O: a) "30", b) "31", c) "32", d) "33";
+        R: "\\( x+(x+1)+(x+2)=3x+3=96 \\Rightarrow x=31 \\).";
+        on_correct: { feedback: "Good start!"; }
+        on_wrong: { feedback: "Set up \\( 3x+3=96 \\)."; }
+    }
+
+    mcq "p2" {
+        Q: "The sum of four consecutive even integers is 60. What is the largest integer?";
+        A: "b";
+        O: a) "16", b) "18", c) "20", d) "22";
+        R: "Let \\( 2x,2x+2,2x+4,2x+6 \\). Sum = \\( 8x+12=60 \\Rightarrow x=6 \\), largest = 18.";
+        on_correct: { feedback: "Great!"; }
+        on_wrong: { feedback: "Use \\( 2x \\) for the first even."; }
+    }
+
+    mcq "p3" {
+        Q: "The sum of five consecutive odd integers is 145. What is the middle integer?";
+        A: "b";
+        O: a) "27", b) "29", c) "31", d) "33";
+        R: "Middle = average = 145/5 = 29.";
+        on_correct: { feedback: "Correct!"; }
+        on_wrong: { feedback: "For odd count, average = middle."; }
+    }
+
+    mcq "p4" {
+        Q: "The average of 7 consecutive integers is 20. Find the largest integer.";
+        A: "b";
+        O: a) "22", b) "23", c) "24", d) "25";
+        R: "Middle = 20, numbers: 17..23, largest = 23.";
+        on_correct: { feedback: "Excellent!"; }
+        on_wrong: { feedback: "The middle is the average."; }
+    }
+
+    mcq "p5" {
+        Q: "The sum of 6 consecutive integers is 27. What is the product of the smallest and the largest?";
+        A: "b";
+        O: a) "12", b) "14", c) "16", d) "18";
+        R: "Let \\( x, x+1, ..., x+5 \\). Sum = \\( 6x+15=27 \\Rightarrow x=2 \\). Numbers: 2,3,4,5,6,7. Product = 2*7=14.";
+        on_correct: { feedback: "Well done!"; }
+        on_wrong: { feedback: "Solve \\( 6x+15=27 \\)."; }
+    }
+
+    mcq "p6" {
+        Q: "The sum of three consecutive integers is 21 more than the smallest integer. What is the middle integer?";
+        A: "b";
+        O: a) "9", b) "10", c) "11", d) "12";
+        R: "\\( 3x+3 = x+21 \\Rightarrow 2x=18 \\Rightarrow x=9 \\), middle = 10.";
+        on_correct: { feedback: "Perfect!"; }
+        on_wrong: { feedback: "Set up \\( 3x+3 = x+21 \\)."; }
+    }
+
+    mcq "p7" {
+        Q: "The sum of four consecutive odd integers is 48. What is the difference between the largest and the smallest?";
+        A: "c";
+        O: a) "4", b) "5", c) "6", d) "8";
+        R: "For four consecutive odds, the difference between largest and smallest is always 6 (e.g., 1,3,5,7 -> 7-1=6).";
+        on_correct: { feedback: "Right!"; }
+        on_wrong: { feedback: "Each step is 2, so over 3 intervals difference = 6."; }
+    }
+
+    mcq "p8" {
+        Q: "The average of 10 consecutive even integers is 47. What is the sum of the 2nd and the 9th integers?";
+        A: "b";
+        O: a) "92", b) "94", c) "96", d) "98";
+        R: "Numbers: 38,40,42,44,46,48,50,52,54,56. 2nd=40, 9th=54, sum=94.";
+        on_correct: { feedback: "Great!"; }
+        on_wrong: { feedback: "Find the sequence starting with first even; the average is midway between 5th and 6th."; }
+    }
+
+    mcq "p9" {
+        Q: "If the sum of five consecutive integers is 0, what is the product of all five?";
+        A: "b";
+        O: a) "-2", b) "0", c) "2", d) "10";
+        R: "Integers: -2,-1,0,1,2; product includes 0 -> 0.";
+        on_correct: { feedback: "Correct!"; }
+        on_wrong: { feedback: "The middle is zero."; }
+    }
+
+    mcq "p10" {
+        Q: "The product of two consecutive positive odd integers is 143. Find their sum.";
+        A: "a";
+        O: a) "24", b) "26", c) "28", d) "30";
+        R: "n(n+2)=143 => n=11, sum=11+13=24.";
+        on_correct: { feedback: "Perfect!"; }
+        on_wrong: { feedback: "Solve \\( n(n+2)=143 \\)."; }
+    }
+
+    mcq "p11" {
+        Q: "The sum of the squares of two consecutive positive integers is 145. Find the sum of the two integers.";
+        A: "b";
+        O: a) "15", b) "17", c) "19", d) "21";
+        R: "\\( n^2+(n+1)^2=145 \\Rightarrow 2n^2+2n+1=145 \\Rightarrow n^2+n-72=0 \\Rightarrow n=8 \\), sum = 17.";
+        on_correct: { feedback: "Excellent!"; }
+        on_wrong: { feedback: "Use \\( n^2+(n+1)^2 = 2n^2+2n+1 \\)."; }
+    }
+
+    mcq "p12" {
+        Q: "The sum of three consecutive even integers is \\( p \\). If the smallest is increased by 6, what is the sum of the new three integers?";
+        A: "c";
+        O: a) "\\( p+2 \\)", b) "\\( p+4 \\)", c) "\\( p+6 \\)", d) "\\( p+8 \\)";
+        R: "Original: \\( 2x + (2x+2)+(2x+4) = 6x+6 = p \\). New: \\( (2x+6)+(2x+2)+(2x+4) = 6x+12 = p+6 \\).";
+        on_correct: { feedback: "Great algebra!"; }
+        on_wrong: { feedback: "Increase smallest by 6 adds 6 to the total sum."; }
+    }
+
+    mcq "p13" {
+        Q: "The difference between the squares of two consecutive integers is 15. What is the larger integer?";
+        A: "b";
+        O: a) "7", b) "8", c) "9", d) "10";
+        R: "\\( (n+1)^2 - n^2 = 2n+1=15 \\Rightarrow n=7 \\), larger = 8.";
+        on_correct: { feedback: "Correct!"; }
+        on_wrong: { feedback: "Use the difference of squares formula."; }
+    }
+
+    mcq "p14" {
+        Q: "The sum of 12 consecutive integers is 78. What is the smallest integer?";
+        A: "b";
+        O: a) "0", b) "1", c) "2", d) "3";
+        R: "\\( 12x + \\frac{12\\cdot 11}{2} = 12x+66 = 78 \\Rightarrow x=1 \\).";
+        on_correct: { feedback: "Well done!"; }
+        on_wrong: { feedback: "Use sum formula \\( n/2(2x+n-1) \\)."; }
+    }
+
+    mcq "p15" {
+        Q: "If the sum of \\( n \\) consecutive integers is zero, which of the following could be \\( n \\)?";
+        A: "c";
+        O: a) "4", b) "6", c) "7", d) "10";
+        R: "Sum zero only when there is a symmetric set, which requires odd number of terms (middle zero). 7 is odd.";
+        on_correct: { feedback: "Correct!"; }
+        on_wrong: { feedback: "Only odd counts can have a zero middle."; }
+    }
+
+    mcq "p16" {
+        Q: "The sum of the first 20 positive integers is 210. What is the sum of the next 20 consecutive integers (21 to 40)?";
+        A: "a";
+        O: a) "610", b) "620", c) "630", d) "640";
+        R: "Each term is 20 more than the corresponding term 1..20, so sum = 210 + 20*20 = 610.";
+        on_correct: { feedback: "Smart shortcut!"; }
+        on_wrong: { feedback: "Add 20 to each of the 20 terms."; }
+    }
+
+    mcq "p17" {
+        Q: "The average of 8 consecutive odd numbers is 40. What is the average of the first and the last?";
+        A: "c";
+        O: a) "38", b) "39", c) "40", d) "41";
+        R: "For any arithmetic sequence, average of first and last equals overall average = 40.";
+        on_correct: { feedback: "Correct!"; }
+        on_wrong: { feedback: "The pair sums to twice the average."; }
+    }
+
+    mcq "p18" {
+        Q: "The product of three consecutive positive integers is 336. What is the sum of these integers?";
+        A: "d";
+        O: a) "18", b) "19", c) "20", d) "21";
+        R: "336 = 6*7*8 => sum = 21.";
+        on_correct: { feedback: "Great!"; }
+        on_wrong: { feedback: "Factor 336 into three consecutive integers."; }
+    }
+
+    mcq "p19" {
+        Q: "The sum of five consecutive integers is 5 times the middle integer. If the smallest integer is -4, what is the largest?";
+        A: "b";
+        O: a) "-1", b) "0", c) "1", d) "2";
+        R: "Numbers: -4,-3,-2,-1,0 -> largest = 0.";
+        on_correct: { feedback: "Correct!"; }
+        on_wrong: { feedback: "Just list them."; }
+    }
+
+    mcq "p20" {
+        Q: "How many sets of three consecutive positive integers have a sum less than 20?";
+        A: "b";
+        O: a) "4", b) "5", c) "6", d) "7";
+        R: "Let smallest = x (positive). Sum = 3x+3 < 20 => 3x < 17 => x ≤ 5. So x=1,2,3,4,5 => 5 sets.";
+        on_correct: { feedback: "Excellent!"; }
+        on_wrong: { feedback: "Set up inequality \\( 3x+3 < 20 \\)."; }
+    }
+
+    numeric_input "final_check" {
+        Q: "The sum of four consecutive integers is -10. What is the product of the first and the third? (Enter the number)";
+        target: 8;
+        tolerance: 0;
+        on_correct: {
+            feedback: "You have mastered the topic! Proceed to the simulation.";
+            goto "simulation_scene";
+        }
+        on_wrong: {
+            feedback: "Let \\( x, x+1, x+2, x+3 \\). Sum = 4x+6 = -10 => x=-4. Integers: -4,-3,-2,-1. First*third = (-4)*(-2)=8.";
+        }
+    }
+}
+
+// ============================================================
+// SCENE 07: INTERACTIVE SIMULATION – VISUALISING CONSECUTIVE SUMS
+// ============================================================
+scene "simulation_scene" {
+    index: "07";
+    concept: "consecutive";
+    title: "Interactive Simulation: Sum of Consecutive Integers";
+
+    body: "
+        This simulation lets you explore how the sum of consecutive integers changes as you adjust the starting number and the count.
+        Use the sliders to see the sum, average, and the list of numbers.
+        The graph shows the sum as a function of the starting value.
+    ";
+
+    simulation "consecutive_sim" {
+        description: "Adjust sliders to see the sum of consecutive integers.";
+        raw: """
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <style>
+                    body { font-family: sans-serif; text-align: center; background: #f9f9f9; }
+                    .container { max-width: 500px; margin: 0 auto; padding: 20px; }
+                    .slider-group { margin: 15px 0; }
+                    label { display: inline-block; width: 80px; }
+                    input[type=range] { width: 200px; }
+                    .result { font-size: 1.2em; margin: 10px 0; }
+                    .numbers { font-family: monospace; background: #eee; padding: 8px; border-radius: 4px; }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <h3>Consecutive Integer Sum Visualiser</h3>
+                    <div class="slider-group">
+                        <label>Start (x):</label>
+                        <input type="range" id="startSlider" min="-10" max="20" value="1" step="1">
+                        <span id="startVal">1</span>
+                    </div>
+                    <div class="slider-group">
+                        <label>Count (n):</label>
+                        <input type="range" id="countSlider" min="1" max="10" value="3" step="1">
+                        <span id="countVal">3</span>
+                    </div>
+                    <div class="result" id="sumDisplay">Sum: 6</div>
+                    <div class="result" id="avgDisplay">Average: 2</div>
+                    <div class="numbers" id="listDisplay">Numbers: 1, 2, 3</div>
+                    <hr>
+                    <canvas id="graph" width="400" height="150"></canvas>
+                </div>
+                <script>
+                    const startSlider = document.getElementById('startSlider');
+                    const countSlider = document.getElementById('countSlider');
+                    const startVal = document.getElementById('startVal');
+                    const countVal = document.getElementById('countVal');
+                    const sumDisplay = document.getElementById('sumDisplay');
+                    const avgDisplay = document.getElementById('avgDisplay');
+                    const listDisplay = document.getElementById('listDisplay');
+                    const canvas = document.getElementById('graph');
+                    const ctx = canvas.getContext('2d');
+
+                    function update() {
+                        const x = parseInt(startSlider.value);
+                        const n = parseInt(countSlider.value);
+                        startVal.textContent = x;
+                        countVal.textContent = n;
+                        const sum = n * (2*x + n - 1) / 2;
+                        const avg = sum / n;
+                        sumDisplay.textContent = 'Sum: ' + sum;
+                        avgDisplay.textContent = 'Average: ' + avg.toFixed(2);
+                        const numbers = [];
+                        for (let i=0; i<n; i++) numbers.push(x+i);
+                        listDisplay.textContent = 'Numbers: ' + numbers.join(', ');
+
+                        // Draw graph: sum as function of start x (for fixed n)
+                        ctx.clearRect(0, 0, 400, 150);
+                        ctx.beginPath();
+                        ctx.strokeStyle = '#0077cc';
+                        ctx.lineWidth = 2;
+                        const maxX = 20, minX = -10;
+                        const stepX = (maxX - minX) / 400;
+                        for (let px = 0; px <= 400; px++) {
+                            const xVal = minX + px * stepX;
+                            const sumVal = n * (2*xVal + n - 1) / 2;
+                            const yVal = 150 - (sumVal - (-200)) / (500 - (-200)) * 130; // scale
+                            if (px === 0) ctx.moveTo(px, yVal);
+                            else ctx.lineTo(px, yVal);
+                        }
+                        ctx.stroke();
+
+                        // Mark current point
+                        const currentX = x;
+                        const currentSum = n * (2*currentX + n - 1) / 2;
+                        const pxCur = (currentX - minX) / (maxX - minX) * 400;
+                        const yCur = 150 - (currentSum - (-200)) / (500 - (-200)) * 130;
+                        ctx.beginPath();
+                        ctx.fillStyle = 'red';
+                        ctx.arc(pxCur, yCur, 5, 0, 2*Math.PI);
+                        ctx.fill();
+                    }
+
+                    startSlider.oninput = update;
+                    countSlider.oninput = update;
+                    update();
+
+                    // Optional: send state updates to CLIL (not necessary for this demo)
+                </script>
+            </body>
+            </html>
+        """;
+    }
+
+    body: "
+        Congratulations! You have completed the adaptive lesson on consecutive integers.
+        The simulation demonstrates the core formulas in a visual way.
+        Keep practicing to maintain your mastery.
+    ";
+}
+
+// ============================================================
+// END OF LESSON
+// ============================================================

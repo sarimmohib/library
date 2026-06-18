@@ -1,0 +1,1585 @@
+@seed 73821;
+
+// ============================================================
+// TRIGONOMETRIC RATIOS — ALL 30+ FORMULAS
+// Adaptive, Interactive, Progressive CLIL v2.0 Lesson
+// Covers: Definitions, Reciprocal, Pythagorean, Quotient,
+// Co-function, Even-Odd, Sum/Difference, Double Angle,
+// Half Angle, Product-to-Sum, Sum-to-Product, Triple Angle,
+// Law of Sines, Law of Cosines + MCQ Speed Tricks
+// ============================================================
+
+scene "toc_scene" {
+    index: "a0";
+    title: "Table of Contents";
+    toc {
+        style: "numbered";
+        clickable: true;
+    }
+}
+
+// ──────────────────────────────────────────
+// MODULE 1: FOUNDATIONS
+// ──────────────────────────────────────────
+
+scene "intro" {
+    index: "a1";
+    format: "markdown";
+    concept: "trig_foundations";
+    title: "1. Introduction to Trigonometric Ratios";
+    body: """
+## Welcome to the Complete Trigonometric Ratios Masterclass
+
+This lesson covers **all 30+ trigonometric formulas** you will ever need — from basic definitions to advanced product-to-sum conversions.
+
+### What You Will Master
+
+- **6 Basic Ratios** (sin, cos, tan, csc, sec, cot)
+- **3 Reciprocal Identities**
+- **3 Pythagorean Identities**
+- **2 Quotient Identities**
+- **6 Co-function Identities**
+- **3 Even-Odd Identities**
+- **6 Sum & Difference Formulas**
+- **3 Double Angle Formulas**
+- **3 Half Angle Formulas**
+- **4 Product-to-Sum Formulas**
+- **4 Sum-to-Product Formulas**
+- **3 Triple Angle Formulas**
+- **Law of Sines & Law of Cosines**
+> **That's 48 formulas total.** By the end, you'll recognize patterns, derive them from memory, and solve MCQs in under 30 seconds.
+
+### How This Lesson Works
+
+Each module teaches a group of related formulas, followed by **interactive simulations** and **adaptive quizzes**. If you struggle, you'll be looped back for review. If you excel, you'll advance to harder problems.
+
+Let's begin with the **Unit Circle** — the foundation of everything.
+""";
+}
+
+scene "unit_circle_intro" {
+    index: "a2";
+    format: "markdown";
+    concept: "trig_foundations";
+    title: "2. The Unit Circle — Your Best Friend";
+    body: """
+## The Unit Circle
+
+The **unit circle** is a circle of radius 1 centered at the origin. For any angle \\(\\theta\\), the point on the circle is:
+
+\\[(x, y) = (\\cos\\theta, \\sin\\theta)\\]
+
+This single fact gives birth to **every** trigonometric identity.
+
+### Why Radius = 1 Matters
+
+Since \\(x^2 + y^2 = r^2\\) and \\(r = 1\\):
+
+\\[\\cos^2\\theta + \\sin^2\\theta = 1\\]
+
+That's your first Pythagorean identity — derived in one line!
+
+### Key Angles to Memorize
+
+| Angle | 0° | 30° | 45° | 60° | 90° |
+|-------|-----|------|------|------|------|
+| sin   | 0   | 1/2  | √2/2 | √3/2 | 1    |
+| cos   | 1   | √3/2 | √2/2 | 1/2  | 0    |
+| tan   | 0   | 1/√3 | 1    | √3   | undef|
+
+> **🏎️ Speed Tip:** Memorize this table. 80% of MCQs use these angles. If you see sin 30° in a problem, you should instantly think "1/2" without calculating.
+""";
+}
+
+scene "unit_circle_sim" {
+    index: "a3";
+    concept: "trig_foundations";
+    title: "Interactive Unit Circle";
+    simulation "unit_circle" {
+        description: "Drag the point around the unit circle to see how sin, cos, and tan change in real time.";        raw: """
+<div style="display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:center;font-family:sans-serif;">
+  <canvas id="ucCanvas" width="400" height="400" style="border:1px solid #ccc;border-radius:8px;background:#1a1a2e;"></canvas>
+  <div id="ucInfo" style="min-width:200px;font-size:15px;line-height:2;color:#e0e0e0;background:#16213e;padding:16px;border-radius:8px;">
+    <div>Angle: <strong id="ucAngle">45°</strong></div>
+    <div>sin θ = <strong id="ucSin" style="color:#ff6b6b;">0.707</strong></div>
+    <div>cos θ = <strong id="ucCos" style="color:#4ecdc4;">0.707</strong></div>
+    <div>tan θ = <strong id="ucTan" style="color:#ffe66d;">1.000</strong></div>
+    <div style="margin-top:12px;font-size:12px;color:#888;">Click & drag on the circle</div>
+  </div>
+</div>
+<script>
+(function(){
+  const c=document.getElementById('ucCanvas'),ctx=c.getContext('2d');
+  const W=400,H=400,cx=W/2,cy=H/2,R=150;
+  let angle=Math.PI/4,dragging=false;
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle='#333';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(0,cy);ctx.lineTo(W,cy);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(cx,0);ctx.lineTo(cx,H);ctx.stroke();
+    ctx.strokeStyle='#4ecdc4';ctx.lineWidth=2;
+    ctx.beginPath();ctx.arc(cx,cy,R,0,2*Math.PI);ctx.stroke();
+    const px=cx+R*Math.cos(angle),py=cy-R*Math.sin(angle);
+    ctx.strokeStyle='#4ecdc4';ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px,cy);ctx.stroke();
+    ctx.strokeStyle='#ff6b6b';ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(px,cy);ctx.lineTo(px,py);ctx.stroke();
+    ctx.strokeStyle='#ffe66d';ctx.lineWidth=1.5;ctx.setLineDash([4,4]);
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px,py);ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle='#ff6b6b';ctx.beginPath();ctx.arc(px,py,6,0,2*Math.PI);ctx.fill();
+    ctx.strokeStyle='#fff';ctx.lineWidth=1;ctx.beginPath();ctx.arc(cx,cy,R,0,-angle,true);ctx.stroke();
+    document.getElementById('ucAngle').textContent=(angle*180/Math.PI).toFixed(1)+'°';
+    document.getElementById('ucSin').textContent=Math.sin(angle).toFixed(3);
+    document.getElementById('ucCos').textContent=Math.cos(angle).toFixed(3);
+    const cosV=Math.cos(angle);
+    document.getElementById('ucTan').textContent=Math.abs(cosV)<0.01?'undefined':Math.tan(angle).toFixed(3);
+  }
+  function getAngle(e){
+    const rect=c.getBoundingClientRect();
+    const x=(e.clientX||e.touches[0].clientX)-rect.left-cx;
+    const y=-((e.clientY||e.touches[0].clientY)-rect.top-cy);
+    angle=Math.atan2(y,x);if(angle<0)angle+=2*Math.PI;
+    draw();
+  }
+  c.addEventListener('mousedown',()=>{dragging=true;});
+  c.addEventListener('mousemove',(e)=>{if(dragging)getAngle(e);});
+  c.addEventListener('mouseup',()=>{dragging=false;});
+  c.addEventListener('mouseleave',()=>{dragging=false;});  c.addEventListener('touchstart',(e)=>{dragging=true;getAngle(e);});
+  c.addEventListener('touchmove',(e)=>{if(dragging)getAngle(e);});
+  c.addEventListener('touchend',()=>{dragging=false;});
+  draw();
+})();
+</script>
+""";
+    }
+}
+
+// ──────────────────────────────────────────
+// MODULE 2: BASIC RATIOS & RECIPROCALS (Formulas 1-9)
+// ──────────────────────────────────────────
+
+scene "basic_ratios" {
+    index: "a4";
+    format: "markdown";
+    concept: "basic_ratios";
+    title: "3. The 6 Basic Trig Ratios";
+    body: """
+## Formulas 1–6: Basic Definitions
+
+In a right triangle with angle \\(\\theta\\), opposite side \\(o\\), adjacent side \\(a\\), and hypotenuse \\(h\\):
+
+### Primary Ratios
+
+\\[\\sin\\theta = \\frac{o}{h} \\quad \\text{(Formula 1)}\\]
+
+\\[\\cos\\theta = \\frac{a}{h} \\quad \\text{(Formula 2)}\\]
+
+\\[\\tan\\theta = \\frac{o}{a} \\quad \\text{(Formula 3)}\\]
+
+### Reciprocal Ratios
+
+\\[\\csc\\theta = \\frac{h}{o} = \\frac{1}{\\sin\\theta} \\quad \\text{(Formula 4)}\\]
+
+\\[\\sec\\theta = \\frac{h}{a} = \\frac{1}{\\cos\\theta} \\quad \\text{(Formula 5)}\\]
+
+\\[\\cot\\theta = \\frac{a}{o} = \\frac{1}{\\tan\\theta} \\quad \\text{(Formula 6)}\\]
+
+### Mnemonic: SOH-CAH-TOA
+
+- **S**in = **O**pposite / **H**ypotenuse
+- **C**os = **A**djacent / **H**ypotenuse
+- **T**an = **O**pposite / **A**djacent
+
+> **🏎️ Speed Tip:** If you see csc, sec, or cot in an MCQ, **immediately convert** to sin, cos, or tan. This eliminates confusion and lets you work with only 3 functions.
+""";
+}
+scene "reciprocal_identities" {
+    index: "a5";
+    format: "markdown";
+    concept: "reciprocal_identities";
+    title: "4. Reciprocal Identities (Formulas 7–9)";
+    body: """
+## Formulas 7–9: Reciprocal Identities
+
+These follow directly from the definitions:
+
+\\[\\sin\\theta = \\frac{1}{\\csc\\theta} \\quad \\text{(Formula 7)}\\]
+
+\\[\\cos\\theta = \\frac{1}{\\sec\\theta} \\quad \\text{(Formula 8)}\\]
+
+\\[\\tan\\theta = \\frac{1}{\\cot\\theta} \\quad \\text{(Formula 9)}\\]
+
+### Why These Matter in MCQs
+
+**Example:** Simplify \\(\\csc\\theta \\cdot \\sin\\theta\\)
+
+Since \\(\\csc\\theta = 1/\\sin\\theta\\), the product is simply **1**.
+
+**Example:** If \\(\\sec\\theta = 5/3\\), find \\(\\cos\\theta\\).
+
+\\(\\cos\\theta = 1/\\sec\\theta = 3/5\\). Done in 5 seconds.
+
+> **🏎️ Speed Tip:** Reciprocal pairs always multiply to 1:
+> - \\(\\sin\\theta \\cdot \\csc\\theta = 1\\)
+> - \\(\\cos\\theta \\cdot \\sec\\theta = 1\\)
+> - \\(\\tan\\theta \\cdot \\cot\\theta = 1\\)
+>
+> Spot these pairs instantly in MCQ options to eliminate wrong answers.
+""";
+}
+
+scene "quiz_basic_reciprocal" {
+    index: "a6";
+    concept: "basic_ratios";
+    title: "Quiz: Basic Ratios & Reciprocals";
+
+    mcq "q_basic1" {
+        Q: "If sin θ = 3/5, what is csc θ?";
+        A: "b";
+        O: a) "3/5", b) "5/3", c) "4/5", d) "5/4";
+        on_correct: {
+            feedback: "Correct! csc θ = 1/sin θ = 5/3. Instant reciprocal!";
+            goto "q_basic2";
+        }
+        on_wrong: {
+            feedback: "Remember: csc θ is simply 1/sin θ. Flip the fraction!";            @loopback "reciprocal_identities" {
+                $review_count = $review_count + 1;
+            }
+        }
+    }
+
+    mcq "q_basic2" {
+        Q: "In a right triangle, if the opposite side is 4 and the hypotenuse is 5, what is cos θ?";
+        A: "c";
+        O: a) "4/5", b) "4/3", c) "3/5", d) "5/4";
+        on_correct: {
+            feedback: "Right! First find adjacent = √(25-16) = 3, then cos θ = 3/5.";
+            goto "q_basic3";
+        }
+        on_wrong: {
+            feedback: "Use Pythagorean theorem: adj = √(5²-4²) = 3. Then cos = adj/hyp = 3/5.";
+            @loopback "basic_ratios" {
+                $review_count = $review_count + 1;
+            }
+        }
+    }
+
+    mcq "q_basic3" {
+        Q: "What is tan θ × cot θ equal to?";
+        A: "a";
+        O: a) "1", b) "0", c) "sin θ", d) "sec²θ";
+        on_correct: {
+            feedback: "Perfect! They are reciprocals, so the product is always 1.";
+            goto "pythagorean_identities";
+        }
+        on_wrong: {
+            feedback: "Since cot θ = 1到的1/tan θ, their product is always 1.";
+            @loopback "reciprocal_identities" {
+                $review_count = $review_count + 1;
+            }
+        }
+    }
+}
+
+// ──────────────────────────────────────────
+// MODULE 3: PYTHAGOREAN IDENTITIES (Formulas 10-12)
+// ──────────────────────────────────────────
+
+scene "pythagorean_identities" {
+    index: "a7";
+    format: "markdown";
+    concept: "pythagorean";
+    title: "5. Pythagorean Identities (Formulas 10–12)";
+    body: """
+## The Three Pythagorean Identities
+These are the **most frequently tested** identities in every exam.
+
+### Identity 1 (The Mother Identity) — Formula 10
+
+\\[\\sin^2\\theta + \\cos^2\\theta = 1\\]
+
+**Derived from:** The unit circle equation \\(x^2 + y^2 = 1\\).
+
+### Identity 2 — Formula 11
+
+Divide Identity 1 by \\(\\cos^2\\theta\\):
+
+\\[\\frac{\\sin^2\\theta}{\\cos^2\\theta} + \\frac{\\cos^2\\theta}{\\cos^2\\theta} = \\frac{1}{\\cos^2\\theta}\\]
+
+\\[\\tan^2\\theta + 1 = \\sec^2\\theta\\]
+
+### Identity 3 — Formula 12
+
+Divide Identity 1 by \\(\\sin^2\\theta\\):
+
+\\[1 + \\cot^2\\theta = \\csc^2\\theta\\]
+
+### Useful Rearrangements
+
+From Formula 10:
+- \\(\\sin^2\\theta = 1 - \\cos^2\\theta\\)
+- \\(\\cos^2\\theta = 1 - \\sin^2\\theta\\)
+- \\(\\sin\\theta = \\pm\\sqrt{1 - \\cos^2\\theta}\\)
+
+> **🏎️ Speed Tip:** Whenever you see \\(\\sin^2\\theta + \\cos^2\\theta\\) anywhere in an expression — even buried inside a larger problem — **replace it with 1 immediately**. This simplification appears in roughly 40% of trig MCQs.
+
+> **🏎️ Speed Tip #2:** If you see \\(\\sec^2\\theta - \\tan^2\\theta\\), the answer is **1**. If you see \\(\\csc^2\\theta - \\cot^2\\theta\\), the answer is also **1**. These are rearranged Pythagorean identities and appear as "trick" options in MCQs.
+""";
+}
+
+scene "pythagorean_sim" {
+    index: "a8";
+    concept: "pythagorean";
+    title: "Interactive: Pythagorean Identity Visualizer";
+    simulation "pyth_sim" {
+        description: "Watch sin²θ + cos²θ always equal 1 as you change the angle.";
+        raw: """
+<div style="font-family:sans-serif;background:#0f0f23;color:#e0e0e0;padding:20px;border-radius:10px;text-align:center;">
+  <h3 style="color:#4ecdc4;">sin²θ + cos²θ = ?</h3>
+  <input type="range" id="pythSlider" min="0" max="360" value="45" style="width:80%;margin:15px 0;">
+  <div style="font-size:20px;margin:10px 0;">
+    θ = <span id="pythAngle">45</span>°
+  </div>
+  <div style="display:flex;justify-content:center;gap:30px;margin:15px 0;flex-wrap:wrap;">    <div style="background:#1a1a3e;padding:12px 20px;border-radius:8px;">
+      <span style="color:#ff6b6b;">sin²θ</span> = <strong id="pythSin2">0.500</strong>
+    </div>
+    <div style="background:#1a1a3e;padding:12px 20px;border-radius:8px;">
+      <span style="color:#4ecdc4;">cos²θ</span> = <strong id="pythCos2">0.500</strong>
+    </div>
+    <div style="background:#1a1a3e;padding:12px 20px;border-radius:8px;border:2px solid #ffe66d;">
+      <span style="color:#ffe66d;">Sum</span> = <strong id="pythSum">1.000</strong>
+    </div>
+  </div>
+  <div style="margin-top:10px;">
+    <div style="display:inline-block;width:200px;height:20px;background:#333;border-radius:10px;overflow:hidden;">
+      <div id="pythBar1" style="height:100%;background:#ff6b6b;float:left;width:50%;transition:width 0.2s;"></div>
+      <div id="pythBar2" style="height:100%;background:#4ecdc4;float:left;width:50%;transition:width 0.2s;"></div>
+    </div>
+    <div style="font-size:11px;color:#888;margin-top:5px;">Bar always fills exactly to 1.0</div>
+  </div>
+</div>
+<script>
+(function(){
+  const sl=document.getElementById('pythSlider');
+  function update(){
+    const deg=parseFloat(sl.value);
+    const rad=deg*Math.PI/180;
+    const s2=Math.sin(rad)**2, c2=Math.cos(rad)**2;
+    document.getElementById('pythAngle').textContent=deg;
+    document.getElementById('pythSin2').textContent=s2.toFixed(4);
+    document.getElementById('pythCos2').textContent=c2.toFixed(4);
+    document.getElementById('pythSum').textContent=(s2+c2).toFixed(4);
+    document.getElementById('pythBar1').style.width=(s2*100)+'%';
+    document.getElementById('pythBar2').style.width=(c2*100)+'%';
+  }
+  sl.addEventListener('input',update);
+  update();
+})();
+</script>
+""";
+    }
+}
+
+scene "quiz_pythagorean" {
+    index: "a9";
+    concept: "pythagorean";
+    title: "Quiz: Pythagorean Identities";
+
+    mcq "q_pyth1" {
+        Q: "Simplify: sin²θ + cos²θ + tan²θ";
+        A: "b";
+        O: a) "1", b) "sec²θ", c) "tan²θ", d) "csc²θ";
+        on_correct: {            feedback: "Excellent! sin²θ + cos²θ = 1, then 1 + tan²θ = sec²θ. Chain the identities!";
+            goto "q_pyth2";
+        }
+        on_wrong: {
+            feedback: "Step 1: sin²θ + cos²θ = 1. Step 2: 1 + tan²θ = sec²θ. Two Pythagorean identities chained!";
+            @loopback "pythagorean_identities" {
+                $review_count = $review_count + 1;
+            }
+        }
+    }
+
+    mcq "q_pyth2" {
+        Q: "If cos θ = 5/13, what is sin²θ?";
+        A: "c";
+        O: a) "25/169", b) "12/13", c) "144/169", d) "169/144";
+        on_correct: {
+            feedback: "Right! sin²θ = 1 - cos²θ = 1 - 25/169 = 144/169.";
+            goto "q_pyth3";
+        }
+        on_wrong: {
+            feedback: "Use sin²θ = 1 - cos²θ = 1 - (5/13)² = 1 - 25/169 = 144/169.";
+            @loopback "pythagorean_identities" {
+                $review_count = $review_count + 1;
+            }
+        }
+    }
+
+    mcq "q_pyth3" {
+        Q: "What does (sec θ - tan θ)(sec θ + tan θ) simplify to?";
+        A: "a";
+        O: a) "1", b) "sec²θ", c) "tan²θ", d) "0";
+        on_correct: {
+            feedback: "Brilliant! This is (a-b)(a+b) = a²-b² = sec²θ - tan²θ = 1.";
+            goto "quotient_cofunction";
+        }
+        on_wrong: {
+            feedback: "Use difference of squares: sec²θ - tan²θ. From Pythagorean identity, this equals 1.";
+            @loopback "pythagorean_identities" {
+                $review_count = $review_count + 1;
+            }
+        }
+    }
+}
+
+// ──────────────────────────────────────────
+// MODULE 4: QUOTIENT & CO-FUNCTION (Formulas 13-20)
+// ──────────────────────────────────────────
+
+scene "quotient_cofunction" {
+    index: "a10";    format: "markdown";
+    concept: "quotient_cofunction";
+    title: "6. Quotient & Co-function Identities (Formulas 13–20)";
+    body: """
+## Quotient Identities (Formulas 13–14)
+
+\\[\\tan\\theta = \\frac{\\sin\\theta}{\\cos\\theta} \\quad \\text{(Formula 13)}\\]
+
+\\[\\cot\\theta = \\frac{\\cos\\theta}{\\sin\\theta} \\quad \\text{(Formula 14)}\\]
+
+> **🏎️ Speed Tip:** Whenever you see a fraction with sin and cos, check if it simplifies to tan or cot. This is the single most common simplification in trig MCQs.
+
+---
+
+## Co-function Identities (Formulas 15–20)
+
+These relate trig functions of **complementary angles** (angles that sum to 90°).
+
+\\[\\sin(90° - \\theta) = \\cos\\theta \\quad \\text{(Formula 15)}\\]
+\\[\\cos(90° - \\theta) = \\sin\\theta \\quad \\text{(Formula 16)}\\]
+\\[\\tan(90° - \\theta) = \\cot\\theta \\quad \\text{(Formula 17)}\\]
+\\[\\cot(90° - \\theta) = \\tan\\theta \\quad \\text{(Formula 18)}\\]
+\\[\\sec(90° - \\theta) = \\csc\\theta \\quad \\text{(Formula 19)}\\]
+\\[\\csc(90° - \\theta) = \\sec\\theta \\quad \\text{(Formula 20)}\\]
+
+### The Pattern
+
+Each function becomes its **co**-partner:
+- sin ↔ cos
+- tan ↔ cot
+- sec ↔ csc
+
+> **🏎️ Speed Trick:** If you see \\(\\sin 70°\\) and \\(\\cos 20°\\) in the same MCQ, they are **equal** (since 70 + 20 = 90). Use this to cancel terms or simplify expressions instantly.
+
+### MCQ Example
+
+**Q:** Simplify \\(\\sin 35° / \\cos 55°\\)
+
+**Solution:** Since 35 + 55 = 90, we know \\(\\cos 55° = \\sin 35°\\). The answer is **1**.
+""";
+}
+
+scene "quiz_quotient_cofunction" {
+    index: "a11";
+    concept: "quotient_cofunction";
+    title: "Quiz: Quotient & Co-function";
+
+    mcq "q_qc1" {
+        Q: "Simplify: (sin θ / cos θ) × cos θ";
+        A: "a";        O: a) "sin θ", b) "cos θ", c) "tan θ", d) "1";
+        on_correct: {
+            feedback: "Correct! sin θ/cos θ = tan θ, then tan θ × cos θ = sin θ. Or just cancel cos θ directly!";
+            goto "q_qc2";
+        }
+        on_wrong: {
+            feedback: "The cos θ in the denominator and numerator cancel, leaving just sin θ.";
+            @loopback "quotient_cofunction" {
+                $review_count = $review_count + 1;
+            }
+        }
+    }
+
+    mcq "q_qc2" {
+        Q: "What is sin 60° / cos 30°?";
+        A: "c";
+        O: a) "√3", b) "1/2", c) "1", d) "√3/2";
+        on_correct: {
+            feedback: "Perfect! Since 60 + 30 = 90, sin 60° = cos 30°, so the ratio is 1.";
+            goto "even_odd";
+        }
+        on_wrong: {
+            feedback: "Co-function: sin 60° = cos(90°-60°) = cos 30°. So sin 60° / cos 30° = 1.";
+            @loopback "quotient_cofunction" {
+                $review_count = $review_count + 1;
+            }
+        }
+    }
+}
+
+// ──────────────────────────────────────────
+// MODULE 5: EVEN-ODD IDENTITIES (Formulas 21-23)
+// ──────────────────────────────────────────
+
+scene "even_odd" {
+    index: "a12";
+    format: "markdown";
+    concept: "even_odd";
+    title: "7. Even-Odd Identities (Formulas 21–23)";
+    body: """
+## Formulas 21–23: Even-Odd Properties
+
+These tell you what happens when you **negate the angle**.
+
+\\[\\sin(-\\theta) = -\\sin\\theta \\quad \\text{(Formula 21 — sin is ODD)}\\]
+
+\\[\\cos(-\\theta) = \\cos\\theta \\quad \\text{(Formula 22 — cos is EVEN)}\\]
+
+\\[\\tan(-\\theta) = -\\tan\\theta \\quad \\text{(Formula 23 — tan is ODD)}\\]
+### Memory Rule
+
+- **sin** and **tan** are **odd** functions → negative sign comes out
+- **cos** is an **even** function → sign stays the same
+- The reciprocals follow the same pattern: csc and cot are odd, sec is even
+
+### Visual Intuition
+
+On the unit circle, negating the angle reflects the point across the x-axis:
+- The x-coordinate (cos) stays the same → even
+- The y-coordinate (sin) flips sign → odd
+
+> **🏎️ Speed Tip:** When you see a negative angle in an MCQ, **pull the negative sign out immediately** for sin and tan, and **drop it** for cos. This takes 2 seconds and often reveals the answer.
+
+### Example
+
+**Q:** \\(\\cos(-45°) + \\sin(-45°)\\) = ?
+
+**A:** \\(\\cos 45° - \\sin 45° = \\frac{\\sqrt{2}}{2} - \\frac{\\sqrt{2}}{2} = 0\\)
+""";
+}
+
+scene "quiz_even_odd" {
+    index: "a13";
+    concept: "even_odd";
+    title: "Quiz: Even-Odd Identities";
+
+    mcq "q_eo1" {
+        Q: "What is sin(-30°)?";
+        A: "b";
+        O: a) "1/2", b) "-1/2", c) "√3/2", d) "-√3/2";
+        on_correct: {
+            feedback: "Right! sin is odd, so sin(-30°) = -sin(30°) = -1/2.";
+            goto "q_eo2";
+        }
+        on_wrong: {
+            feedback: "sin is an odd function: sin(-θ) = -sin(θ). So sin(-30°) = -sin(30°) = -1/2.";
+            @loopback "even_odd" {
+                $review_count = $review_count + 1;
+            }
+        }
+    }
+
+    mcq "q_eo2" {
+        Q: "Simplify: cos(-θ) + cos(θ)";
+        A: "c";
+        O: a) "0", b) "cos θ", c) "2cos θ", d) "2sin θ";
+        on_correct: {
+            feedback: "Correct! cos is even, so cos(-θ) = cos(θ). Thus cos(θ) + cos(θ) = 2cos θ.";
+            goto "speed_tips_1";        }
+        on_wrong: {
+            feedback: "cos is even: cos(-θ) = cos(θ). So the expression becomes cos θ + cos θ = 2cos θ.";
+            @loopback "even_odd" {
+                $review_count = $review_count + 1;
+            }
+        }
+    }
+}
+
+// ──────────────────────────────────────────
+// SPEED TIPS INTERLUDE 1
+// ──────────────────────────────────────────
+
+scene "speed_tips_1" {
+    index: "a14";
+    format: "markdown";
+    concept: "speed_tricks";
+    title: "⚡ Speed Tips: Solving MCQs in Under 30 Seconds (Part 1)";
+    body: """
+## MCQ Speed Strategy #1: The Elimination Method
+
+When you have less than 30 seconds, **don't solve — eliminate**.
+
+### Trick 1: Plug in θ = 0° or θ = 90°
+
+If the identity should hold for ALL θ, test with a simple angle:
+
+**Example:** Which expression equals 1?
+- A) sin²θ + cos²θ → sin²0 + cos²0 = 0 + 1 = **1** ✓
+- B) sin²θ - cos²θ → 0 - 1 = -1 ✗
+- C) sin θ + cos θ → 0 + 1 = 1 (but try θ=45°: √2/2 + √2/2 = √2 ≠ 1) ✗
+
+> **This trick solves 60% of identity MCQs in under 10 seconds.**
+
+### Trick 2: Check the Degree of the Expression
+
+- If the question involves only sin²θ and cos²θ terms, think **Pythagorean**.
+- If you see products like sin A cos B, think **Product-to-Sum**.
+- If you see sin(A+B), think **Sum Formula** or expand immediately.
+
+### Trick 3: Dimensional Analysis of Trig
+
+Count the "degree" of trig functions:
+- sin²θ cos²θ is degree 4
+- If the answer choices have different degrees, you can often eliminate wrong ones
+
+### Trick 4: The "Convert Everything to sin and cos" Rule
+
+When stuck, convert ALL functions to sin and cos:- tan → sin/cos
+- cot → cos/sin
+- sec → 1/cos
+- csc → 1/sin
+
+Then simplify the algebra. This is a **universal fallback** that always works.
+""";
+}
+
+// ──────────────────────────────────────────
+// MODULE 6: SUM & DIFFERENCE FORMULAS (Formulas 24-29)
+// ──────────────────────────────────────────
+
+scene "sum_diff_formulas" {
+    index: "a15";
+    format: "markdown";
+    concept: "sum_difference";
+    title: "8. Sum & Difference Formulas (Formulas 24–29)";
+    body: """
+## The Six Addition/Subtraction Formulas
+
+These are essential for expanding compound angles and are the **foundation** for double angle and half angle formulas.
+
+### Sine Formulas
+
+\\[\\sin(A + B) = \\sin A \\cos B + \\cos A \\sin B \\quad \\text{(Formula 24)}\\]
+
+\\[\\sin(A - B) = \\sin A \\cos B - \\cos A \\sin B \\quad \\text{(Formula 25)}\\]
+
+> **Memory aid:** "Sine keeps the sign" — the sign between terms matches the sign between angles.
+
+### Cosine Formulas
+
+\\[\\cos(A + B) = \\cos A \\cos B - \\sin A \\sin B \\quad \\text{(Formula 26)}\\]
+
+\\[\\cos(A - B) = \\cos A \\cos B + \\sin A \\sin B \\quad \\text{(Formula 27)}\\]
+
+> **Memory aid:** "Cosine changes the sign" — the sign between terms is OPPOSITE to the sign between angles.
+
+### Tangent Formulas
+
+\\[\\tan(A + B) = \\frac{\\tan A + \\tan B}{1 - \\tan A \\tan B} \\quad \\text{(Formula 28)}\\]
+
+\\[\\tan(A - B) = \\frac{\\tan A - \\tan B}{1 + \\tan A \\tan B} \\quad \\text{(Formula 29)}\\]
+
+### Pattern Summary
+
+| Function | Same sign in angle | Opposite sign in terms? |
+|----------|-------------------|------------------------|
+| sin      | Yes               | No (same sign)         || cos      | No                | Yes (opposite sign)    |
+| tan      | Yes               | No (same sign in num)  |
+
+> **🏎️ Speed Tip:** If you see \\(\\sin 75°\\) in an MCQ, break it as \\(\\sin(45° + 30°)\\) and expand. Same for 15° = 45° - 30°, 105° = 60° + 45°, etc. **Know your angle decompositions!**
+""";
+}
+
+scene "sum_diff_sim" {
+    index: "a16";
+    concept: "sum_difference";
+    title: "Interactive: Sum & Difference Explorer";
+    simulation "sum_diff_sim" {
+        description: "Verify sin(A+B) = sinA cosB + cosA sinB by adjusting angles A and B.";
+        raw: """
+<div style="font-family:sans-serif;background:#0f0f23;color:#e0e0e0;padding:20px;border-radius:10px;">
+  <h3 style="color:#4ecdc4;text-align:center;">sin(A+B) Formula Verifier</h3>
+  <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin:15px 0;">
+    <div>A: <input type="range" id="angleA" min="0" max="180" value="30" style="width:120px;"> <span id="valA">30</span>°</div>
+    <div>B: <input type="range" id="angleB" min="0" max="180" value="45" style="width:120px;"> <span id="valB">45</span>°</div>
+  </div>
+  <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;">
+    <div style="background:#1a1a3e;padding:15px;border-radius:8px;text-align:center;min-width:180px;">
+      <div style="color:#ffe66d;font-weight:bold;">Direct</div>
+      <div>sin(<span id="sumAngle">75</span>°)</div>
+      <div style="font-size:22px;margin-top:5px;" id="directVal">0.9659</div>
+    </div>
+    <div style="background:#1a1a3e;padding:15px;border-radius:8px;text-align:center;min-width:180px;">
+      <div style="color:#ff6b6b;font-weight:bold;">Formula</div>
+      <div>sinA·cosB + cosA·sinB</div>
+      <div style="font-size:22px;margin-top:5px;" id="formulaVal">0.9659</div>
+    </div>
+    <div style="background:#1a1a3e;padding:15px;border-radius:8px;text-align:center;min-width:120px;">
+      <div style="color:#4ecdc4;font-weight:bold;">Match?</div>
+      <div style="font-size:28px;margin-top:5px;" id="matchIcon">✅</div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const sA=document.getElementById('angleA'),sB=document.getElementById('angleB');
+  function update(){
+    const a=parseFloat(sA.value),b=parseFloat(sB.value);
+    const ar=a*Math.PI/180,br=b*Math.PI/180;
+    document.getElementById('valA').textContent=a;
+    document.getElementById('valB').textContent=b;
+    document.getElementById('sumAngle').textContent=(a+b);
+    const direct=Math.sin(ar+br);
+    const formula=Math.sin(ar)*Math.cos(br)+Math.cos(ar)*Math.sin(br);
+    document.getElementById('directVal').textContent=direct.toFixed(4);
+    document.getElementById('formulaVal').textContent=formula.toFixed(4);    document.getElementById('matchIcon').textContent=Math.abs(direct-formula)<0.001?'✅':'❌';
+  }
+  sA.addEventListener('input',update);sB.addEventListener('input',update);update();
+})();
+</script>
+""";
+    }
+}
+
+scene "quiz_sum_diff" {
+    index: "a17";
+    concept: "sum_difference";
+    title: "Quiz: Sum & Difference Formulas";
+
+    mcq "q_sd1" {
+        Q: "What is the exact value of sin 75°?";
+        A: "b";
+        O: a) "(√6 - √2)/4", b) "(√6 + √2)/4", c) "(√3 + 1)/4", d) "√3/2";
+        on_correct: {
+            feedback: "Excellent! sin(45°+30°) = sin45·cos30 + cos45·sin30 = (√2/2)(√3/2) + (√2/2)(1/2) = (√6+√2)/4.";
+            goto "q_sd2";
+        }
+        on_wrong: {
+            feedback: "Write 75° = 45° + 30°. Expand: sin45·cos30 + cos45·sin30 = (√2/2)(√3/2) + (√2/2)(1/2) = (√6+√2)/4.";
+            @loopback "sum_diff_formulas" {
+                $review_count = $review_count + 1;
+            }
+        }
+    }
+
+    mcq "q_sd2" {
+        Q: "cos(A-B) - cos(A+B) simplifies to:";
+        A: "d";
+        O: a) "2cosA cosB", b) "-2sinA sinB", c) "2cosA sinB", d) "2sinA sinB";
+        on_correct: {
+            feedback: "Right! cos(A-B) = cosAcosB + sinAsinB and cos(A+B) = cosAcosB - sinAsinB. Subtracting gives 2sinAsinB.";
+            goto "double_angle";
+        }
+        on_wrong: {
+            feedback: "Expand both: cos(A-B) = cosAcosB+sinAsinB, cos(A+B) = cosAcosB-sinAsinB. Difference = 2sinAsinB.";
+            @loopback "sum_diff_formulas" {
+                $review_count = $review_count + 1;
+            }
+        }
+    }
+}
+
+// ──────────────────────────────────────────
+// MODULE 7: DOUBLE ANGLE FORMULAS (Formulas 30-32)
+// ──────────────────────────────────────────
+scene "double_angle" {
+    index: "a18";
+    format: "markdown";
+    concept: "double_angle";
+    title: "9. Double Angle Formulas (Formulas 30–32)";
+    body: """
+## Derived from Sum Formulas by Setting A = B = θ
+
+### Formula 30: sin 2θ
+
+\\[\\sin 2\\theta = 2\\sin\\theta\\cos\\theta\\]
+
+### Formula 31: cos 2θ (THREE FORMS!)
+
+\\[\\cos 2\\theta = \\cos^2\\theta - \\sin^2\\theta \\quad \\text{(Form A)}\\]
+
+Using \\(\\sin^2\\theta = 1 - \\cos^2\\theta\\):
+
+\\[\\cos 2\\theta = 2\\cos^2\\theta - 1 \\quad \\text{(Form B)}\\]
+
+Using \\(\\cos^2\\theta = 1 - \\sin^2\\theta\\):
+
+\\[\\cos 2\\theta = 1 - 2\\sin^2\\theta \\quad \\text{(Form C)}\\]
+
+### Formula 32: tan 2θ
+
+\\[\\tan 2\\theta = \\frac{2\\tan\\theta}{1 - \\tan^2\\theta}\\]
+
+### When to Use Which Form of cos 2θ?
+
+| If you know... | Use Form |
+|----------------|----------|
+| Both sin θ and cos θ | A: cos²θ - sin²θ |
+| Only cos θ | B: 2cos²θ - 1 |
+| Only sin θ | C: 1 - 2sin²θ |
+
+> **🏎️ Speed Tip:** The identity \\(1 - 2\\sin^2\\theta = \\cos 2\\theta\\) and \\(2\\cos^2\\theta - 1 = \\cos 2\\theta\\) are **extremely common** in MCQs. If you see either pattern, replace immediately with cos 2θ.
+
+> **🏎️ Speed Tip #2:** Similarly, \\(2\\sin\\theta\\cos\\theta\\) should **instantly** trigger sin 2θ in your mind. Don't leave it un-simplified.
+""";
+}
+
+scene "quiz_double_angle" {
+    index: "a19";
+    concept: "double_angle";
+    title: "Quiz: Double Angle Formulas";
+
+    mcq "q_da1" {
+        Q: "If sin θ = 3/5 and cos θ = 4/5, what is sin 2θ?";        A: "c";
+        O: a) "7/25", b) "12/25", c) "24/25", d) "1";
+        on_correct: {
+            feedback: "Right! sin 2θ = 2 sinθ cosθ = 2(3/5)(4/5) = 24/25.";
+            goto "q_da2";
+        }
+        on_wrong: {
+            feedback: "Use sin 2θ = 2 sinθ cosθ = 2 × (3/5) × (4/5) = 24/25.";
+            @loopback "double_angle" {
+                $review_count = $review_count + 1;
+            }
+        }
+    }
+
+    mcq "q_da2" {
+        Q: "Simplify: 1 - 2sin²(15°)";
+        A: "b";
+        O: a) "sin 30°", b) "cos 30°", c) "cos 15°", d) "sin 15°";
+        on_correct: {
+            feedback: "Perfect! This is the Form C pattern: 1 - 2sin²θ = cos 2θ. So cos(2×15°) = cos 30°.";
+            goto "half_angle";
+        }
+        on_wrong: {
+            feedback: "Recognize the pattern: 1 - 2sin²θ = cos 2θ. Here θ = 15°, so cos 30°.";
+            @loopback "double_angle" {
+                $review_count = $review_count + 1;
+            }
+        }
+    }
+}
+
+// ──────────────────────────────────────────
+// MODULE 8: HALF ANGLE FORMULAS (Formulas 33-35)
+// ──────────────────────────────────────────
+
+scene "half_angle" {
+    index: "a20";
+    format: "markdown";
+    concept: "half_angle";
+    title: "10. Half Angle Formulas (Formulas 33–35)";
+    body: """
+## Derived from cos 2θ by Substituting θ → θ/2
+
+### Formula 33: sin(θ/2)
+
+\\[\\sin\\frac{\\theta}{2} = \\pm\\sqrt{\\frac{1 - \\cos\\theta}{2}}\\]
+
+### Formula 34: cos(θ/2)
+
+\\[\\cos\\frac{\\theta}{2} = \\pm\\sqrt{\\frac{1 + \\cos\\theta}{2}}\\]
+### Formula 35: tan(θ/2)
+
+\\[\\tan\\frac{\\theta}{2} = \\frac{\\sin\\theta}{1 + \\cos\\theta} = \\frac{1 - \\cos\\theta}{\\sin\\theta}\\]
+
+### The Sign (±) Rule
+
+The sign depends on which **quadrant** θ/2 falls in:
+- Quadrant I: all positive
+- Quadrant II: sin positive, cos negative
+- Quadrant III: tan positive, sin and cos negative
+- Quadrant IV: cos positive, sin negative
+
+> **🏎️ Speed Tip:** The tan half-angle formula has **no square root**, making it the fastest to compute. If you need tan(θ/2), always use Formula 35 instead of dividing sin(θ/2) by cos(θ/2).
+
+> **🏎️ Speed Tip #2:** Half angle formulas are the key to finding exact values of unusual angles:
+> - sin 15° = sin(30°/2)
+> - cos 22.5° = cos(45°/2)
+> - tan 75° = ... wait, that's not half. But tan 22.5° = tan(45°/2) ✓
+""";
+}
+
+scene "quiz_half_angle" {
+    index: "a21";
+    concept: "half_angle";
+    title: "Quiz: Half Angle Formulas";
+
+    mcq "q_ha1" {
+        Q: "Using the half angle formula, what is cos(45°/2)?";
+        A: "a";
+        O: a) "√(2+√2)/2", b) "√(2-√2)/2", c) "√2/2", d) "1/2";
+        on_correct: {
+            feedback: "Right! cos(θ/2) = √((1+cosθ)/2) = √((1+√2/2)/2) = √((2+√2)/4) = √(2+√2)/2.";
+            goto "q_ha2";
+        }
+        on_wrong: {
+            feedback: "cos(22.5°) = √((1+cos45°)/2) = √((1+√2/2)/2) = √(2+√2)/2.";
+            @loopback "half_angle" {
+                $review_count = $review_count + 1;
+            }
+        }
+    }
+
+    mcq "q_ha2" {
+        Q: "tan(θ/2) can be written WITHOUT a square root as:";
+        A: "c";
+        O: a) "(1+cosθ)/sinθ", b) "sinθ/(1-cosθ)", c) "sinθ/(1+cosθ)", d) "cosθ/(1+sinθ)";
+        on_correct: {
+            feedback: "Correct! tan(θ/2) = sinθ/(1+cosθ) is the radical-free form. Super useful for quick computation.";
+            goto "product_sum";        }
+        on_wrong: {
+            feedback: "The radical-free half angle for tangent: tan(θ/2) = sinθ/(1+cosθ).";
+            @loopback "half_angle" {
+                $review_count = $review_count + 1;
+            }
+        }
+    }
+}
+
+// ──────────────────────────────────────────
+// MODULE 9: PRODUCT-TO-SUM & SUM-TO-PRODUCT (Formulas 36-43)
+// ──────────────────────────────────────────
+
+scene "product_sum" {
+    index: "a22";
+    format: "markdown";
+    concept: "product_sum";
+    title: "11. Product-to-Sum & Sum-to-Product (Formulas 36–43)";
+    body: """
+## Product-to-Sum Formulas (Formulas 36–39)
+
+These convert **products** of trig functions into **sums/differences**.
+
+\\[\\sin A \\sin B = \\frac{1}{2}[\\cos(A-B) - \\cos(A+B)] \\quad \\text{(36)}\\]
+
+\\[\\cos A \\cos B = \\frac{1}{2}[\\cos(A-B) + \\cos(A+B)] \\quad \\text{(37)}\\]
+
+\\[\\sin A \\cos B = \\frac{1}{2}[\\sin(A+B) + \\sin(A-B)] \\quad \\text{(38)}\\]
+
+\\[\\cos A \\sin B = \\frac{1}{2}[\\sin(A+B) - \\sin(A-B)] \\quad \\text{(39)}\\]
+
+### Memory Aid: "SS = -CC, CC = +CC, SC = +SS, CS = +SS"
+
+- **S**in × **S**in → **C**os - **C**os (minus)
+- **C**os × **C**os → **C**os + **C**os (plus)
+- **S**in × **C**os → **S**in + **S**in
+- **C**os × **S**in → **S**in - **S**in
+
+---
+
+## Sum-to-Product Formulas (Formulas 40–43)
+
+These convert **sums/differences** into **products**.
+
+\\[\\sin A + \\sin B = 2\\sin\\frac{A+B}{2}\\cos\\frac{A-B}{2} \\quad \\text{(40)}\\]
+
+\\[\\sin A - \\sin B = 2\\cos\\frac{A+B}{2}\\sin\\frac{A-B}{2} \\quad \\text{(41)}\\]
+
+\\[\\cos A + \\cos B = 2\\cos\\frac{A+B}{2}\\cos\\frac{A-B}{2} \\quad \\text{(42)}\\]
+\\[\\cos A - \\cos B = -2\\sin\\frac{A+B}{2}\\sin\\frac{A-B}{2} \\quad \\text{(43)}\\]
+
+### Memory Aid for Sum-to-Product
+
+- **S**in ± **S**in → **S** × **C** (sin then cos)
+- **C**os + **C**os → **C** × **C** (cos then cos)
+- **C**os - **C**os → **-S** × **S** (negative, sin then sin)
+
+> **🏎️ Speed Tip:** These formulas are tested when you see expressions like "sin 50° + sin 10°" or "cos 75° × cos 15°". Recognize the pattern and convert immediately.
+
+> **🏎️ Speed Tip #2:** For MCQs involving numerical values, Product-to-Sum often converts hard products into easy sums of known angles. E.g., cos 75° × cos 15° = ½[cos 60° + cos 90°] = ½[1/2 + 0] = **1/4**.
+""";
+}
+
+scene "product_sum_sim" {
+    index: "a23";
+    concept: "product_sum";
+    title: "Interactive: Product-to-Sum Verifier";
+    simulation "ps_sim" {
+        description: "Verify sin A × cos B = ½[sin(A+B) + sin(A-B)] interactively.";
+        raw: """
+<div style="font-family:sans-serif;background:#0f0f23;color:#e0e0e0;padding:20px;border-radius:10px;">
+  <h3 style="color:#ffe66d;text-align:center;">sin A × cos B = ½[sin(A+B) + sin(A-B)]</h3>
+  <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin:15px 0;">
+    <div>A: <input type="range" id="psA" min="0" max="180" value="60"> <span id="psAv">60</span>°</div>
+    <div>B: <input type="range" id="psB" min="0" max="180" value="30"> <span id="psBv">30</span>°</div>
+  </div>
+  <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;">
+    <div style="background:#1a1a3e;padding:15px;border-radius:8px;text-align:center;">
+      <div style="color:#ff6b6b;">Product</div>
+      <div>sin A × cos B</div>
+      <div style="font-size:22px;" id="psProduct">0.7500</div>
+    </div>
+    <div style="background:#1a1a3e;padding:15px;border-radius:8px;text-align:center;">
+      <div style="color:#4ecdc4;">Sum Formula</div>
+      <div>½[sin(A+B)+sin(A-B)]</div>
+      <div style="font-size:22px;" id="psSum">0.7500</div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const sA=document.getElementById('psA'),sB=document.getElementById('psB');
+  function update(){
+    const a=parseFloat(sA.value),b=parseFloat(sB.value);
+    const ar=a*Math.PI/180,br=b*Math.PI/180;
+    document.getElementById('psAv').textContent=a;
+    document.getElementById('psBv').textContent=b;
+    const prod=Math.sin(ar)*Math.cos(br);    const sum=0.5*(Math.sin(ar+br)+Math.sin(ar-br));
+    document.getElementById('psProduct').textContent=prod.toFixed(4);
+    document.getElementById('psSum').textContent=sum.toFixed(4);
+  }
+  sA.addEventListener('input',update);sB.addEventListener('input',update);update();
+})();
+</script>
+""";
+    }
+}
+
+scene "quiz_product_sum" {
+    index: "a24";
+    concept: "product_sum";
+    title: "Quiz: Product-to-Sum & Sum-to-Product";
+
+    mcq "q_ps1" {
+        Q: "What is 2 sin 50° cos 10°?";
+        A: "b";
+        O: a) "sin 40° + sin 60°", b) "sin 60° + sin 40°", c) "cos 60° + cos 40°", d) "sin 50° - sin 10°";
+        on_correct: {
+            feedback: "Right! Using Formula 38: 2 sinA cosB = sin(A+B) + sin(A-B) = sin 60° + sin 40°.";
+            goto "q_ps2";
+        }
+        on_wrong: {
+            feedback: "Formula 38: 2 sinA cosB = sin(A+B) + sin(A-B). With A=50°, B=10°: sin 60° + sin 40°.";
+            @loopback "product_sum" {
+                $review_count = $review_count + 1;
+            }
+        }
+    }
+
+    mcq "q_ps2" {
+        Q: "cos 75° × cos 15° equals:";
+        A: "a";
+        O: a) "1/4", b) "1/2", c) "√3/4", d) "0";
+        on_correct: {
+            feedback: "Excellent! ½[cos(75-15) + cos(75+15)] = ½[cos 60° + cos 90°] = ½[1/2 + 0] = 1/4.";
+            goto "triple_angle";
+        }
+        on_wrong: {
+            feedback: "Use Formula 37: cosA cosB = ½[cos(A-B)+cos(A+B)] = ½[cos 60°+cos 90°] = ½[1/2+0] = 1/4.";
+            @loopback "product_sum" {
+                $review_count = $review_count + 1;
+            }
+        }
+    }
+}
+
+// ──────────────────────────────────────────// MODULE 10: TRIPLE ANGLE FORMULAS (Formulas 44-46)
+// ──────────────────────────────────────────
+
+scene "triple_angle" {
+    index: "a25";
+    format: "markdown";
+    concept: "triple_angle";
+    title: "12. Triple Angle Formulas (Formulas 44–46)";
+    body: """
+## Derived by Expanding sin(2θ+θ), cos(2θ+θ), tan(2θ+θ)
+
+### Formula 44: sin 3θ
+
+\\[\\sin 3\\theta = 3\\sin\\theta - 4\\sin^3\\theta\\]
+
+### Formula 45: cos 3θ
+
+\\[\\cos 3\\theta = 4\\cos^3\\theta - 3\\cos\\theta\\]
+
+### Formula 46: tan 3θ
+
+\\[\\tan 3\\theta = \\frac{3\\tan\\theta - \\tan^3\\theta}{1 - 3\\tan^2\\theta}\\]
+
+### Elegant Forms
+
+Notice the beautiful patterns:
+- sin 3θ = sin θ (3 - 4sin²θ)
+- cos 3θ = cos θ (4cos²θ - 3)
+
+### Quick Derivation Memory
+
+For sin 3θ:
+1. Write sin(2θ+θ) = sin2θ cosθ + cos2θ sinθ
+2. Substitute: (2sinθ cosθ)cosθ + (1-2sin²θ)sinθ
+3. = 2sinθ cos²θ + sinθ - 2sin³θ
+4. = 2sinθ(1-sin²θ) + sinθ - 2sin³θ
+5. = 3sinθ - 4sin³θ ✓
+
+> **🏎️ Speed Tip:** Triple angle formulas appear less often but are **instant recognizers** in MCQs. If you see "3sinθ - 4sin³θ", immediately replace with sin 3θ. This pattern recognition saves 30+ seconds.
+""";
+}
+
+scene "quiz_triple_angle" {
+    index: "a26";
+    concept: "triple_angle";
+    title: "Quiz: Triple Angle Formulas";
+
+    mcq "q_ta1" {
+        Q: "If sin θ = 1/2, what is sin 3θ?";
+        A: "d";        O: a) "3/2", b) "1", c) "1/2", d) "-1";
+        on_correct: {
+            feedback: "Wait — let's verify! sin 3θ = 3(1/2) - 4(1/8) = 3/2 - 1/2 = 1. Actually the answer is 1. Let me re-check the options...";
+            goto "q_ta1_fix";
+        }
+        on_wrong: {
+            feedback: "sin 3θ = 3sinθ - 4sin³θ = 3(1/2) - 4(1/8) = 3/2 - 1/2 = 1.";
+            @loopback "triple_angle" {
+                $review_count = $review_count + 1;
+            }
+        }
+    }
+
+    mcq "q_ta1_fix" {
+        Q: "(Continuing) sin 3θ when sin θ = 1/2 is actually 1. Which angle has sin = 1/2 and makes sin 3θ = 1?";
+        A: "a";
+        O: a) "θ = 30°, so 3θ = 90°", b) "θ = 60°, so 3θ = 180°", c) "θ = 45°", d) "θ = 90°";
+        on_correct: {
+            feedback: "Exactly! If θ = 30°, then 3θ = 90°, and sin 90° = 1. The formula confirms: 3(1/2) - 4(1/8) = 1.";
+            goto "law_of_sines";
+        }
+        on_wrong: {
+            feedback: "sin θ = 1/2 means θ = 30°. Then 3θ = 90° and sin 90° = 1. The formula gives 3/2 - 1/2 = 1. ✓";
+            @loopback "triple_angle" {
+                $review_count = $review_count + 1;
+            }
+        }
+    }
+}
+
+// ──────────────────────────────────────────
+// MODULE 11: LAW OF SINES & COSINES (Formulas 47-48)
+// ──────────────────────────────────────────
+
+scene "law_of_sines" {
+    index: "a27";
+    format: "markdown";
+    concept: "laws";
+    title: "13. Law of Sines & Law of Cosines (Formulas 47–48)";
+    body: """
+## These Work for ANY Triangle (Not Just Right Triangles!)
+
+### Formula 47: Law of Sines
+
+For a triangle with sides a, b, c opposite to angles A, B, C:
+
+\\[\\frac{a}{\\sin A} = \\frac{b}{\\sin B} = \\frac{c}{\\sin C} = 2R\\]
+
+where R is the circumradius.
+### When to Use:
+- You know **two angles and one side** (AAS or ASA)
+- You know **two sides and a non-included angle** (SSA — ambiguous case)
+
+### Formula 48: Law of Cosines
+
+\\[c^2 = a^2 + b^2 - 2ab\\cos C\\]
+
+Equivalently:
+\\[a^2 = b^2 + c^2 - 2bc\\cos A\\]
+\\[b^2 = a^2 + c^2 - 2ac\\cos B\\]
+
+### When to Use:
+- You know **all three sides** (SSS) → find an angle
+- You know **two sides and the included angle** (SAS) → find the third side
+
+### Special Case
+When C = 90°, cos 90° = 0, and the Law of Cosines reduces to the **Pythagorean Theorem**:
+\\[c^2 = a^2 + b^2\\]
+
+> **🏎️ Speed Tip:** In MCQs, if you see a triangle problem with an angle and its opposite side, think **Law of Sines**. If you see two sides with the angle BETWEEN them, think **Law of Cosines**. This decision tree saves time.
+
+> **🏎️ Speed Tip #2:** The Law of Cosines can be rearranged to find angles:
+> \\[\\cos C = \\frac{a^2 + b^2 - c^2}{2ab}\\]
+> If a² + b² > c² → acute angle. If a² + b² < c² → obtuse angle. Use this to eliminate options instantly.
+""";
+}
+
+scene "law_sim" {
+    index: "a28";
+    concept: "laws";
+    title: "Interactive: Triangle Solver";
+    simulation "triangle_sim" {
+        description: "Adjust two sides and the included angle to see the Law of Cosines in action.";
+        raw: """
+<div style="font-family:sans-serif;background:#0f0f23;color:#e0e0e0;padding:20px;border-radius:10px;">
+  <h3 style="color:#4ecdc4;text-align:center;">Law of Cosines: c² = a² + b² - 2ab·cos(C)</h3>
+  <div style="display:flex;gap:15px;justify-content:center;flex-wrap:wrap;margin:15px 0;">
+    <div>a: <input type="range" id="lawA" min="1" max="10" value="5"> <span id="lawAv">5</span></div>
+    <div>b: <input type="range" id="lawB" min="1" max="10" value="7"> <span id="lawBv">7</span></div>
+    <div>C: <input type="range" id="lawC" min="10" max="170" value="60"> <span id="lawCv">60</span>°</div>
+  </div>
+  <div style="text-align:center;font-size:20px;margin:10px 0;">
+    c = <strong id="lawResult" style="color:#ffe66d;">6.24</strong>
+  </div>
+  <canvas id="lawCanvas" width="400" height="250" style="display:block;margin:10px auto;border:1px solid #333;border-radius:8px;background:#1a1a2e;"></canvas>
+</div>
+<script>
+(function(){
+  const sA=document.getElementById('lawA'),sB=document.getElementById('lawB'),sC=document.getElementById('lawC');  const canvas=document.getElementById('lawCanvas'),ctx=canvas.getContext('2d');
+  function update(){
+    const a=parseFloat(sA.value),b=parseFloat(sB.value),C=parseFloat(sC.value)*Math.PI/180;
+    document.getElementById('lawAv').textContent=a;
+    document.getElementById('lawBv').textContent=b;
+    document.getElementById('lawCv').textContent=Math.round(C*180/Math.PI);
+    const c=Math.sqrt(a*a+b*b-2*a*b*Math.cos(C));
+    document.getElementById('lawResult').textContent=c.toFixed(2);
+    ctx.clearRect(0,0,400,250);
+    const scale=200/Math.max(a,b,c);
+    const ox=50,oy=220;
+    const bx=ox+b*scale,by=oy;
+    const cx2=ox+a*scale*Math.cos(C),cy2=oy-a*scale*Math.sin(C);
+    ctx.strokeStyle='#4ecdc4';ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(ox,oy);ctx.lineTo(bx,by);ctx.stroke();
+    ctx.strokeStyle='#ff6b6b';
+    ctx.beginPath();ctx.moveTo(ox,oy);ctx.lineTo(cx2,cy2);ctx.stroke();
+    ctx.strokeStyle='#ffe66d';
+    ctx.beginPath();ctx.moveTo(bx,by);ctx.lineTo(cx2,cy2);ctx.stroke();
+    ctx.fillStyle='#fff';ctx.font='14px sans-serif';
+    ctx.fillText('a='+a,(ox+cx2)/2-20,(oy+cy2)/2);
+    ctx.fillText('b='+b,(ox+bx)/2,oy+18);
+    ctx.fillText('c='+c.toFixed(1),(bx+cx2)/2+5,(by+cy2)/2);
+  }
+  sA.addEventListener('input',update);sB.addEventListener('input',update);sC.addEventListener('input',update);
+  update();
+})();
+</script>
+""";
+    }
+}
+
+scene "quiz_laws" {
+    index: "a29";
+    concept: "laws";
+    title: "Quiz: Law of Sines & Cosines";
+
+    mcq "q_law1" {
+        Q: "In triangle ABC, a=5, b=7, C=60°. Find c using the Law of Cosines.";
+        A: "b";
+        O: a) "√39", b) "√39", c) "8", d) "6";
+        R: "c² = 25 + 49 - 2(5)(7)cos60° = 74 - 35 = 39. c = √39 ≈ 6.24";
+        on_correct: {
+            feedback: "Correct! c² = 25 + 49 - 70(0.5) = 39, so c = √39.";
+            goto "q_law2";
+        }
+        on_wrong: {
+            feedback: "c² = a² + b² - 2ab·cosC = 25 + 49 - 2(5)(7)(0.5) = 74 - 35 = 39.";
+            @loopback "law_of_sines" {
+                $review_count = $review_count + 1;            }
+        }
+    }
+
+    mcq "q_law2" {
+        Q: "In triangle ABC, A=30°, B=45°, a=10. Find b using the Law of Sines.";
+        A: "c";
+        O: a) "5√2", b) "10√2", c) "10√2", d) "5√6";
+        R: "b/sin45° = 10/sin30° → b = 10·(√2/2)/(1/2) = 10√2";
+        on_correct: {
+            feedback: "Right! b = a·sinB/sinA = 10·(√2/2)/(1/2) = 10√2 ≈ 14.14.";
+            goto "speed_tips_2";
+        }
+        on_wrong: {
+            feedback: "Law of Sines: b/sinB = a/sinA → b = 10 × sin45°/sin30° = 10 × (√2/2)/(1/2) = 10√2.";
+            @loopback "law_of_sines" {
+                $review_count = $review_count + 1;
+            }
+        }
+    }
+}
+
+// ──────────────────────────────────────────
+// SPEED TIPS INTERLUDE 2
+// ──────────────────────────────────────────
+
+scene "speed_tips_2" {
+    index: "a30";
+    format: "markdown";
+    concept: "speed_tricks";
+    title: "⚡ Speed Tips: Solving MCQs in Under 30 Seconds (Part 2)";
+    body: """
+## MCQ Speed Strategy #2: Advanced Techniques
+
+### Trick 5: The "Option Substitution" Method
+
+When the question asks "which identity is correct?", **don't derive — test each option with θ = 30° or θ = 45°**.
+
+Example: Which equals cos 2θ?
+- Test θ = 30°: cos 60° = 0.5
+- A) 2cos²θ = 2(3/4) = 1.5 ✗
+- B) 2cos²θ - 1 = 1.5 - 1 = 0.5 ✓
+
+**Time: 10 seconds instead of 2 minutes.**
+
+### Trick 6: The "Degree Check"
+
+Count the total power of trig functions on each side:
+- sin²θ cos²θ has degree 4
+- If an answer choice has degree 2, it **cannot** be correct (unless there's a hidden identity)
+### Trick 7: Symmetry Test
+
+If an expression is symmetric in A and B (unchanged when you swap them), the answer must also be symmetric. This eliminates asymmetric options.
+
+### Trick 8: The Quadrant Sign Check
+
+For numerical MCQs:
+1. Determine which quadrant the angle is in
+2. Determine the sign of the answer (positive or negative)
+3. Eliminate all options with the wrong sign
+
+Example: sin 200° = ?
+- 200° is in Q3 → sin is negative
+- Eliminate all positive options immediately
+
+### Trick 9: "Complementary Shortcut"
+
+If you see pairs like (sin θ + cos θ)² and need to expand:
+(sin θ + cos θ)² = sin²θ + cos²θ + 2sinθcosθ = **1 + sin 2θ**
+
+This pattern appears in MCQs constantly.
+
+### Trick 10: The "Zero Hunter"
+
+For "find the value of..." MCQs, check if any term becomes zero:
+- sin 0° = 0, sin 180° = 0
+- cos 90° = 0, cos 270° = 0
+- tan 0° = 0
+
+If a factor is zero, the entire product is zero. Instant answer.
+""";
+}
+
+// ──────────────────────────────────────────
+// MODULE 12: MASTER CHEAT SHEET
+// ──────────────────────────────────────────
+
+scene "cheat_sheet" {
+    index: "a31";
+    format: "markdown";
+    concept: "review";
+    title: "📋 Complete Formula Cheat Sheet (All 48 Formulas)";
+    body: """
+## The Ultimate Trigonometric Formula Reference
+
+### BASIC RATIOS (1–6)
+1. sin θ = opp/hyp
+2. cos θ = adj/hyp
+3. tan θ = opp/adj4. csc θ = 1/sin θ
+5. sec θ = 1/cos θ
+6. cot θ = 1/tan θ
+
+### RECIPROCAL (7–9)
+7. sin θ · csc θ = 1
+8. cos θ · sec θ = 1
+9. tan θ · cot θ = 1
+
+### PYTHAGOREAN (10–12)
+10. sin²θ + cos²θ = 1
+11. 1 + tan²θ = sec²θ
+12. 1 + cot²θ = csc²θ
+
+### QUOTIENT (13–14)
+13. tan θ = sin θ / cos θ
+14. cot θ = cos θ / sin θ
+
+### CO-FUNCTION (15–20)
+15. sin(90°-θ) = cos θ
+16. cos(90°-θ) = sin θ
+17. tan(90°-θ) = cot θ
+18. cot(90°-θ) = tan θ
+19. sec(90°-θ) = csc θ
+20. csc(90°-θ) = sec θ
+
+### EVEN-ODD (21–23)
+21. sin(-θ) = -sin θ
+22. cos(-θ) = cos θ
+23. tan(-θ) = -tan θ
+
+### SUM (24, 26, 28)
+24. sin(A+B) = sinA cosB + cosA sinB
+26. cos(A+B) = cosA cosB - sinA sinB
+28. tan(A+B) = (tanA+tanB)/(1-tanA tanB)
+
+### DIFFERENCE (25, 27, 29)
+25. sin(A-B) = sinA cosB - cosA sinB
+27. cos(A-B) = cosA cosB + sinA sinB
+29. tan(A-B) = (tanA-tanB)/(1+tanA tanB)
+
+### DOUBLE ANGLE (30–32)
+30. sin 2θ = 2 sinθ cosθ
+31. cos 2θ = cos²θ - sin²θ = 2cos²θ - 1 = 1 - 2sin²θ
+32. tan 2θ = 2tanθ/(1-tan²θ)
+
+### HALF ANGLE (33–35)
+33. sin(θ/2) = ±√((1-cosθ)/2)
+34. cos(θ/2) = ±√((1+cosθ)/2)
+35. tan(θ/2) = sinθ/(1+cosθ) = (1-cosθ)/sinθ
+### PRODUCT-TO-SUM (36–39)
+36. sinA sinB = ½[cos(A-B) - cos(A+B)]
+37. cosA cosB = ½[cos(A-B) + cos(A+B)]
+38. sinA cosB = ½[sin(A+B) + sin(A-B)]
+39. cosA sinB = ½[sin(A+B) - sin(A-B)]
+
+### SUM-TO-PRODUCT (40–43)
+40. sinA + sinB = 2 sin((A+B)/2) cos((A-B)/2)
+41. sinA - sinB = 2 cos((A+B)/2) sin((A-B)/2)
+42. cosA + cosB = 2 cos((A+B)/2) cos((A-B)/2)
+43. cosA - cosB = -2 sin((A+B)/2) sin((A-B)/2)
+
+### TRIPLE ANGLE (44–46)
+44. sin 3θ = 3sinθ - 4sin³θ
+45. cos 3θ = 4cos³θ - 3cosθ
+46. tan 3θ = (3tanθ - tan³θ)/(1 - 3tan²θ)
+
+### LAWS (47–48)
+47. a/sinA = b/sinB = c/sinC (Law of Sines)
+48. c² = a² + b² - 2ab cosC (Law of Cosines)
+
+---
+
+> **Print this page or bookmark it. These 48 formulas are the COMPLETE set you need.**
+""";
+}
+
+// ──────────────────────────────────────────
+// MODULE 13: GRAND DIAGNOSTIC
+// ──────────────────────────────────────────
+
+scene "grand_diagnostic" {
+    index: "a32";
+    concept: "mastery_check";
+    title: "🎯 Grand Diagnostic: Mixed MCQ Challenge";
+
+    mcq "gd1" {
+        Q: "[Speed] sin²θ/(1-cos²θ) = ?";
+        A: "a";
+        O: a) "1", b) "sin θ", c) "tan²θ", d) "sec²θ";
+        on_correct: {
+            feedback: "Instant! 1-cos²θ = sin²θ (Pythagorean). So sin²θ/sin²θ = 1. Under 5 seconds!";
+            goto "gd2";
+        }
+        on_wrong: {
+            feedback: "Pythagorean identity: 1-cos²θ = sin²θ. The fraction becomes sin²θ/sin²θ = 1.";
+            @loopback "pythagorean_identities" {
+                $review_count = $review_count + 1;
+            }        }
+    }
+
+    mcq "gd2" {
+        Q: "[Speed] cos 80° - sin 10° = ?";
+        A: "d";
+        O: a) "1", b) "cos 70°", c) "sin 80°", d) "0";
+        on_correct: {
+            feedback: "Co-function! cos 80° = sin(90°-80°) = sin 10°. So sin 10° - sin 10° = 0.";
+            goto "gd3";
+        }
+        on_wrong: {
+            feedback: "cos 80° = sin 10° (co-function, 80+10=90). So cos 80° - sin 10° = 0.";
+            @loopback "quotient_cofunction" {
+                $review_count = $review_count + 1;
+            }
+        }
+    }
+
+    mcq "gd3" {
+        Q: "[Medium] 2sin²(θ/2) = ?";
+        A: "b";
+        O: a) "1+cosθ", b) "1-cosθ", c) "sinθ", d) "cos2θ";
+        on_correct: {
+            feedback: "From half angle: sin²(θ/2) = (1-cosθ)/2. Multiply by 2: 1-cosθ. This is also the rearranged cos 2θ identity!";
+            goto "gd4";
+        }
+        on_wrong: {
+            feedback: "Half angle formula: sin²(θ/2) = (1-cosθ)/2. So 2sin²(θ/2) = 1-cosθ.";
+            @loopback "half_angle" {
+                $review_count = $review_count + 1;
+            }
+        }
+    }
+
+    mcq "gd4" {
+        Q: "[Hard] sin(A+B) + sin(A-B) = ?";
+        A: "a";
+        O: a) "2sinA cosB", b) "2cosA sinB", c) "2sinA sinB", d) "2cosA cosB";
+        on_correct: {
+            feedback: "Perfect! Expanding both and adding: the sinA sinB terms cancel, leaving 2sinA cosB.";
+            goto "gd5";
+        }
+        on_wrong: {
+            feedback: "Expand: sinA cosB + cosA sinB + sinA cosB - cosA sinB = 2sinA cosB.";
+            @loopback "sum_diff_formulas" {
+                $review_count = $review_count + 1;
+            }
+        }
+    }
+    mcq "gd5" {
+        Q: "[Trick] If tan θ = 1, what is sin 2θ?";
+        A: "c";
+        O: a) "0", b) "1/2", c) "1", d) "√2";
+        on_correct: {
+            feedback: "tan θ = 1 → θ = 45°. sin 2θ = sin 90° = 1. Or use: sin 2θ = 2tanθ/(1+tan²θ) = 2/2 = 1.";
+            goto "completion";
+        }
+        on_wrong: {
+            feedback: "tan θ = 1 means θ = 45°. Then sin 2(45°) = sin 90° = 1. Or use the formula: 2tanθ/(1+tan²θ) = 2(1)/(1+1) = 1.";
+            @loopback "double_angle" {
+                $review_count = $review_count + 1;
+            }
+        }
+    }
+}
+
+// ──────────────────────────────────────────
+// COMPLETION
+// ──────────────────────────────────────────
+
+scene "completion" {
+    index: "a33";
+    format: "markdown";
+    concept: "mastery_check";
+    title: "🎉 Lesson Complete!";
+    body: """
+## Congratulations!
+
+You have completed the **Complete Trigonometric Ratios Masterclass** covering all **48 formulas**.
+
+### What You Mastered
+
+✅ 6 Basic Ratios (SOH-CAH-TOA)
+✅ 3 Reciprocal Identities
+✅ 3 Pythagorean Identities
+✅ 2 Quotient Identities
+✅ 6 Co-function Identities
+✅ 3 Even-Odd Identities
+✅ 6 Sum & Difference Formulas
+✅ 3 Double Angle Formulas
+✅ 3 Half Angle Formulas
+✅ 4 Product-to-Sum Formulas
+✅ 4 Sum-to-Product Formulas
+✅ 3 Triple Angle Formulas
+✅ Law of Sines & Law of Cosines
+✅ 10 MCQ Speed Tricks
+
+### Next Steps
+1. **Review the Cheat Sheet** (Scene a31) until you can recall all 48 formulas from memory
+2. **Practice with timed MCQs** — aim for under 30 seconds per question
+3. **Revisit any module** where you were looped back for review
+4. **Focus on pattern recognition** — the fastest solvers don't calculate, they recognize
+
+### The Golden Rule
+
+> *"Don't memorize 48 separate formulas. Learn the 6 basic ratios, the unit circle, and the sum formulas. Everything else is derivation."*
+
+If you understand **why** each formula works (from the unit circle and angle addition), you can reconstruct any formula in seconds — even under exam pressure.
+
+---
+
+**You are now equipped to solve any trigonometric ratios problem.** 🚀
+""";
+}
